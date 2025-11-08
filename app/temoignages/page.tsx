@@ -1,9 +1,12 @@
+"use client"
+
+import { useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Quote, Calendar, User, Heart } from "lucide-react"
-import Link from "next/link"
+import { Quote, Calendar, User, Heart, X } from "lucide-react"
+import { TestimonyForm } from "@/components/testimony-form"
 
 const testimonials = [
   {
@@ -81,12 +84,43 @@ const testimonials = [
 ]
 
 export default function TestimonialsPage() {
+  const [showModal, setShowModal] = useState(false)
   const featuredTestimonials = testimonials.filter((t) => t.featured)
   const regularTestimonials = testimonials.filter((t) => !t.featured)
+
+  const handleTestimonySubmit = () => {
+    // Fermer le modal après soumission réussie
+    setShowModal(false)
+    // Vous pouvez aussi ajouter un toast de confirmation ici
+  }
 
   return (
     <main className="min-h-screen">
       <Navigation />
+
+      {/* Modal de soumission */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <Card className="relative">
+              <div className="sticky top-0 bg-background border-b p-4 flex items-center justify-between">
+                <h2 className="text-xl font-bold">Partager votre témoignage</h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowModal(false)}
+                  className="h-8 w-8 p-0"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="p-6">
+                <TestimonyForm onSuccess={handleTestimonySubmit} />
+              </div>
+            </Card>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 bg-gradient-to-b from-primary/10 to-background">
@@ -225,8 +259,12 @@ export default function TestimonialsPage() {
                 Dieu a fait quelque chose de merveilleux dans votre vie ? Partagez votre témoignage pour encourager
                 d'autres personnes et glorifier le Seigneur.
               </p>
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-                <Link href="/contact">Partager mon témoignage</Link>
+              <Button 
+                size="lg" 
+                className="bg-primary hover:bg-primary/90"
+                onClick={() => setShowModal(true)}
+              >
+                Partager mon témoignage
               </Button>
             </Card>
           </div>
