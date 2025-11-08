@@ -1,13 +1,13 @@
 // components/testimony-form.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, X, Upload, Image as ImageIcon } from "lucide-react";
 import { TestimonyService, TestimonyFormData } from "@/src/services/testimony.service";
 
 const CATEGORIES = [
@@ -19,6 +19,13 @@ const CATEGORIES = [
   { value: "transformation", label: "Transformation" },
   { value: "autre", label: "Autre" }
 ];
+
+// Types pour les images
+interface ImageFile {
+  file: File;
+  preview: string;
+  id: string;
+}
 
 interface TestimonyFormProps {
   onSuccess?: () => void;
@@ -33,9 +40,73 @@ export function TestimonyForm({ onSuccess }: TestimonyFormProps) {
     author_location: "",
     category: "autre"
   });
+  const [images, setImages] = useState<ImageFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Configuration des images
+  const MAX_IMAGES = 3;
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const newImages: ImageFile[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      // Validation du nombre d'images
+      if (images.length + newImages.length >= MAX_IMAGES) {
+        setError(`Maximum ${MAX_IMAGES} images autorisées`);
+        break;
+      }
+
+      // Validation du type de fichier
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        setError("Seuls les fichiers JPEG, PNG et WebP sont acceptés");
+        continue;
+      }
+
+      // Validation de la taille
+      if (file.size > MAX_FILE_SIZE) {
+        setError(`La taille maximale par image est de ${MAX_FILE_SIZE / 1024 / 1024}MB`);
+        continue;
+      }
+
+      const imageFile: ImageFile = {
+        file,
+        preview: URL.createObjectURL(file),
+        id: Math.random().toString(36).substr(2, 9)
+      };
+
+      newImages.push(imageFile);
+    }
+
+    if (newImages.length > 0) {
+      setImages(prev => [...prev, ...newImages]);
+      setError(null);
+    }
+
+    // Reset le input file
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const removeImage = (id: string) => {
+    setImages(prev => {
+      const imageToRemove = prev.find(img => img.id === id);
+      if (imageToRemove) {
+        URL.revokeObjectURL(imageToRemove.preview);
+      }
+      return prev.filter(img => img.id !== id);
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,8 +114,25 @@ export function TestimonyForm({ onSuccess }: TestimonyFormProps) {
     setError(null);
 
     try {
-      await TestimonyService.submitTestimony(formData);
+      // Créer FormData pour supporter les fichiers
+      const formDataToSend = new FormData();
+      
+      // Ajouter les champs texte
+      Object.entries(formData).forEach(([key, value]) => {
+        formDataToSend.append(key, value);
+      });
+
+      // Ajouter les images
+      images.forEach((image, index) => {
+        formDataToSend.append(`images`, image.file);
+      });
+
+      await TestimonyService.submitTestimony(formDataToSend);
       setSubmitted(true);
+      
+      // Nettoyer les URLs des prévisualisations
+      images.forEach(image => URL.revokeObjectURL(image.preview));
+      
       setTimeout(() => {
         onSuccess?.();
       }, 2000);
@@ -113,6 +201,66 @@ export function TestimonyForm({ onSuccess }: TestimonyFormProps) {
         </p>
       </div>
 
+      {/* Section Images */}
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>Images (optionnel)</Label>
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              multiple
+              className="hidden"
+            />
+            <div className="flex flex-col items-center gap-2">
+              <Upload className="w-8 h-8 text-gray-400" />
+              <div>
+                <p className="text-sm font-medium text-foreground">
+                  Glissez-déposez vos images ou cliquez pour parcourir
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  JPG, PNG, WebP jusqu'à 5MB. Maximum {MAX_IMAGES} images.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <ImageIcon className="w-4 h-4 mr-2" />
+                Choisir des images
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Prévisualisation des images */}
+        {images.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {images.map((image) => (
+              <div key={image.id} className="relative group">
+                <div className="aspect-square rounded-lg overflow-hidden border">
+                  <img
+                    src={image.preview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeImage(image.id)}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       <div className="grid md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="author_name">Votre nom *</Label>
@@ -170,6 +318,7 @@ export function TestimonyForm({ onSuccess }: TestimonyFormProps) {
         <p className="text-sm text-blue-700">
           <strong>Note importante :</strong> Votre témoignage sera examiné par notre équipe 
           avant publication. Votre email ne sera pas affiché publiquement.
+          Les images doivent respecter nos conditions d'utilisation.
         </p>
       </div>
 

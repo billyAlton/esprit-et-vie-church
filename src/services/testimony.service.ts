@@ -1,5 +1,5 @@
 // src/services/testimony.service.ts
-import  apiClient  from '@/lib/apiCaller';
+import apiClient from '@/lib/apiCaller';
 
 export interface Testimony {
   _id: string;
@@ -24,6 +24,7 @@ export interface TestimonyFormData {
   author_email: string;
   author_location?: string;
   category: string;
+  images?: File[]; // Ajout du champ images
 }
 
 export interface TestimonyStats {
@@ -33,8 +34,19 @@ export interface TestimonyStats {
 }
 
 export class TestimonyService {
-  // Soumettre un témoignage (public)
-  static async submitTestimony(data: TestimonyFormData): Promise<{ success: boolean; message: string; data: any }> {
+  // Soumettre un témoignage avec support des images
+  static async submitTestimony(data: TestimonyFormData | FormData): Promise<{ success: boolean; message: string; data: any }> {
+    // Si c'est un FormData (avec images), on l'utilise directement
+    if (data instanceof FormData) {
+      const response = await apiClient.post('/testimonies/submit', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    }
+    
+    // Sinon, on envoie en JSON normal
     const response = await apiClient.post('/testimonies/submit', data);
     return response.data;
   }
@@ -49,7 +61,4 @@ export class TestimonyService {
     const response = await apiClient.get('/testimonies/public', { params });
     return response.data;
   }
-
-  // Les méthodes admin ne sont pas accessibles depuis le front public
-  // Elles seront utilisées dans l'admin panel avec l'apiCaller authentifié
 }
