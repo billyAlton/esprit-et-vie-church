@@ -2,7 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift } from "lucide-react"
+import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart } from "lucide-react"
 
 export default function DonationPage() {
   return (
@@ -134,7 +134,7 @@ export default function DonationPage() {
                   <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                   <div className="flex-shrink-0">
                     <div className="w-24 h-24 rounded-lg bg-gradient-to-tr from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10">
-                    <Heart className="w-10 h-10 text-primary" />
+                    <HandHeart className="w-10 h-10 text-primary" />
                     </div>
                   </div>
 
@@ -210,7 +210,7 @@ export default function DonationPage() {
                   <div>
                     <p className="text-xs text-muted-foreground mb-2">Progrès actuel du programme</p>
                     <div className="w-full bg-muted rounded-full h-3 overflow-hidden" role="progressbar" aria-valuenow={42} aria-valuemin={0} aria-valuemax={100}>
-                      <div className="h-3 bg-primary" style={{ width: "22%" }} />
+                      <div className="h-3 bg-primary" style={{ width: "10%" }} />
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">La graine a germé, faisons-la grandir ensemble.</p>
                   </div>
