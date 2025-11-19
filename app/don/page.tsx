@@ -3,7 +3,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart, Loader2, X,ChevronLeft, ChevronRight } from "lucide-react"
+import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react"
 import { ProjectService, type Project } from "@/src/services/project.service";
 import { useEffect, useState } from "react"
 
@@ -507,6 +507,8 @@ export default function DonationPage() {
           </div>
         </div>
       </section>
+
+
 
       {/* Bible Verses — simple display for reading */}
       <section

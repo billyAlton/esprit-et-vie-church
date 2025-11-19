@@ -42,7 +42,7 @@ export function Navigation() {
             </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             <Link href="/" className="text-foreground hover:text-primary transition-colors font-medium">
               Accueil
             </Link>
@@ -66,6 +66,9 @@ export function Navigation() {
             </Link>
             <Link href="/blog" className="text-foreground hover:text-primary transition-colors font-medium">
               Blog
+            </Link>
+            <Link href="/prayer" className="text-foreground hover:text-primary transition-colors font-medium">
+              Priere
             </Link>
             <Link href="/ressources" className="text-foreground hover:text-primary transition-colors font-medium">
               Ressources
