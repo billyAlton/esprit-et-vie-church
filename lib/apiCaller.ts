@@ -7,7 +7,7 @@ import axios, {
 } from "axios";
 
 // Base URL for the API
-export const BASE_URL = "http://localhost:8000/api";
+export const BASE_URL = "http://localhost:8002/api";
 // export const BASE_URL = 'https://codux.kababeats.com/api';
 
 // Create an Axios instance
