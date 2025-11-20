@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart } from "lucide-react"
+import { Star, Landmark, Users } from "lucide-react";
 
 export default function DonationPage() {
   return (
@@ -120,123 +121,104 @@ export default function DonationPage() {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Projets à Soutenir</h2>
-              <div className="w-20 h-1 bg-primary mx-auto" />
-            </div>
+    <section className="py-24 bg-background/60">
+  <div className="container mx-auto px-6">
+    <div className="max-w-6xl mx-auto">
 
-            <div className="grid md:grid-cols-2 gap-8">
-                <Card className="p-6 md:p-8 border-border shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1 hover:scale-[1.01]">
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-24 h-24 rounded-lg bg-gradient-to-tr from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10">
-                    <HandHeart className="w-10 h-10 text-primary" />
-                    </div>
-                  </div>
-
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Lieu de pèlerinage et d'accueil</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                    Aidez-nous à créer un sanctuaire dédié à la prière, à la rencontre et à la formation spirituelle
-                    un lieu où les familles, les jeunes et les visiteurs peuvent se ressourcer, apprendre et se soutenir mutuellement.
-                    </p>
-
-                    <div className="mb-4">
-                    <p className="font-semibold text-foreground mb-2">Ce que ce lieu permettra :</p>
-                    <ul className="text-sm text-muted-foreground ml-4 space-y-1 list-disc mb-3">
-                      <li>Espaces de prière et de retraite pour des groupes et des familles</li>
-                      <li>Programmes de formation et d'accompagnement spirituel</li>
-                      <li>Accueil et soutien des personnes vulnérables en détresse</li>
-                    </ul>
-
-                    <p className="text-sm text-muted-foreground mb-2">Étape actuelle :</p>
-                    <div className="flex flex-wrap gap-2 items-center">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-                      Acquisition du terrain — En cours
-                      </span>
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs">
-                      Aménagement — À venir
-                      </span>
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs">
-                      Programmes & accueil — Planification
-                      </span>
-                    </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                    <Button className="w-full sm:flex-1 bg-primary hover:bg-primary/90">
-                      Soutenir ce projet
-                    </Button>
-                    <button
-                      type="button"
-                      className="w-full sm:w-auto px-4 py-2 rounded-md border border-border text-sm text-foreground bg-transparent hover:bg-muted transition"
-                    >
-                      Découvrir la vision
-                    </button>
-                    </div>
-                  </div>
-                  </div>
-                </Card>
-
-              <Card className="p-6 md:p-8 border-border shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1 hover:scale-[1.01]">
-                <div className="flex flex-col gap-4">
-                  <h3 className="text-2xl font-bold text-foreground mb-1">Aide aux Orphelins</h3>
-                  <p className="text-muted-foreground">
-                    Aidez-nous à offrir un avenir stable aux enfants les plus vulnérables. Vos dons financent l'accès à l'éducation,
-                    la santé et l'encadrement psychologique pour des orphelins et enfants de la rue. Chaque contribution crée un
-                    impact direct et mesurable dans la vie d'un enfant.
-                  </p>
-
-                  <ul className="text-sm text-muted-foreground list-disc ml-5 space-y-1">
-                    <li>Programmes éducatifs et fournitures scolaires</li>
-                    <li>Soins médicaux et nutritionnels réguliers</li>
-                    <li>Accompagnement familial et insertion sociale</li>
-                  </ul>
-
-                  <div className="bg-muted p-3 rounded-md text-sm">
-                    <p className="font-semibold text-foreground mb-1">Exemples d'impact (montant libre) :</p>
-                    <ul className="text-muted-foreground list-disc ml-5">
-                      <li>Petit don : fournitures scolaires pour un enfant</li>
-                      <li>Don moyen : suivi médical et nutritionnel sur plusieurs mois</li>
-                      <li>Don généreux : prise en charge complète (éducation, santé, encadrement)</li>
-                    </ul>
-                    <p className="text-xs text-muted-foreground mt-2">Montant libre — choisissez ce qui vous convient, chaque contribution compte.</p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-2">Progrès actuel du programme</p>
-                    <div className="w-full bg-muted rounded-full h-3 overflow-hidden" role="progressbar" aria-valuenow={42} aria-valuemin={0} aria-valuemax={100}>
-                      <div className="h-3 bg-primary" style={{ width: "22%" }} />
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">La graine a germé, faisons-la grandir ensemble.</p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-3 mt-2">
-                    <Button className="w-full sm:flex-1 bg-primary hover:bg-primary/90">
-                      Soutenir ce projet
-                    </Button>
-                    <button
-                      type="button"
-                      className="w-full sm:w-auto px-4 py-2 rounded-md border border-border text-sm text-foreground bg-transparent hover:bg-muted transition"
-                    >
-                      En savoir plus
-                    </button>
-                  </div>
-
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Transparence : rapports trimestriels publiés et possibilité de recevoir un bilan personnalisé sur demande.
-                    Votre don est sécurisé et utilisé localement.
-                  </p>
-                </div>
-              </Card>
-            </div>
+      <div className="text-center mb-20">
+        <div className="flex justify-center mb-4">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
+            <Star className="w-8 h-8 text-primary" />
           </div>
         </div>
-      </section>
+        <h2 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">Projets à Soutenir</h2>
+        <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
+        <p className="text-sm text-muted-foreground mt-4 max-w-md mx-auto">
+          Chacun contribue selon son cœur et ses possibilités.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-12">
+
+        {/* Projet 1 */}
+        <Card className="p-10 border border-border/50 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl bg-background/80 backdrop-blur-sm hover:-translate-y-1 hover:scale-[1.01]">
+          <div className="space-y-6">
+            <div className="flex justify-center">
+              <div className="w-20 h-20 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                <Landmark className="w-10 h-10 text-primary" />
+              </div>
+            </div>
+
+            <h3 className="text-2xl font-semibold text-foreground text-center">Lieu de pèlerinage et d'accueil</h3>
+
+            <p className="text-sm text-muted-foreground leading-relaxed text-center">
+              Un espace dédié à la prière et au ressourcement. Chacun, selon ses moyens, peut contribuer à l’émergence d’un lieu d’accueil et de soutien.
+            </p>
+
+            <div className="space-y-3">
+              <p className="font-semibold text-foreground">Ce que ce lieu offrira :</p>
+              <ul className="text-sm text-muted-foreground ml-4 space-y-1 list-disc">
+                <li>Espaces de prière et de retraite</li>
+                <li>Formations et accompagnements spirituels</li>
+                <li>Accueil des personnes en situation de vulnérabilité</li>
+              </ul>
+            </div>
+<div className="space-y-2">
+  <p className="text-sm text-foreground font-medium">Étape actuelle :</p>
+  <div className="flex flex-wrap gap-2 items-center">
+    <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+      Acquisition du terrain (En cours)
+    </span>
+    <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs">
+      Aménagement (À venir)
+    </span>
+    <span className="inline-flex items-center px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs">
+      Programmes &amp; accueil (Planification)
+    </span>
+  </div>
+</div>
+          </div>
+        </Card>
+
+        {/* Projet 2 */}
+        <Card className="p-10 border border-border/50 shadow-lg hover:shadow-2xl transition-all duration-300 rounded-3xl bg-background/80 backdrop-blur-sm hover:-translate-y-1 hover:scale-[1.01]">
+          <div className="space-y-6">
+            <div className="flex justify-center">
+              <div className="w-20 h-20 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                <Users className="w-10 h-10 text-primary" />
+              </div>
+            </div>
+
+            <h3 className="text-2xl font-semibold text-foreground text-center">Aide aux Orphelins</h3>
+
+            <p className="text-sm text-muted-foreground leading-relaxed text-center">
+              Un geste, même modeste, peut transformer un quotidien. Les contributions libres soutiennent l’éducation, la santé et l’encadrement social.
+            </p>
+
+            <ul className="text-sm text-muted-foreground list-disc ml-5 space-y-1">
+              <li>Programmes éducatifs et fournitures</li>
+              <li>Soins médicaux et nutritionnels</li>
+              <li>Accompagnement familial et insertion sociale</li>
+            </ul>
+
+            <div className="bg-muted/60 p-4 rounded-lg text-sm border border-border/40">
+              <p className="font-semibold text-foreground mb-2">Exemples d’impact (montant libre) :</p>
+              <ul className="text-muted-foreground list-disc ml-5 space-y-1">
+                <li>Petit geste : fournitures scolaires</li>
+                <li>Contribution moyenne : suivi médical</li>
+                <li>Soutien généreux : prise en charge complète</li>
+              </ul>
+              <p className="text-xs text-muted-foreground mt-3">Chacun participe selon sa mesure d'autant plus que chaque geste compte.</p>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
       {/* Bible Verses — simple display for reading */}
       <section
@@ -272,7 +254,7 @@ export default function DonationPage() {
             Versets bibliques
           </h3>
           <p className="text-sm text-emerald-700/80 mt-1">
-            Réflexions et méditations pour encourager le service, la solidarité et le partage
+           Réflexions pour éveiller en chacun l’élan du service, de la solidarité et du partage
           </p>
           <div className="mx-auto mt-3 w-28 h-1 rounded-full bg-gradient-to-r from-emerald-300 to-emerald-600" />
             </div>
@@ -363,9 +345,6 @@ export default function DonationPage() {
             })}
           </div>
 
-          <div className="mt-7 text-center text-xs text-emerald-700/80">
-            <span>Ces versets peuvent vous inspirer pour vos dons et votre service. Merci pour votre générosité.</span>
-          </div>
         </div>
           </div>
         </div>
