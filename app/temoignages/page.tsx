@@ -27,6 +27,7 @@ export default function TestimonialsPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Fonction pour formater la date
   const formatDate = (dateString: string) => {
@@ -135,7 +136,7 @@ export default function TestimonialsPage() {
                 <Filter className="w-5 h-5 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Filtrer par :</span>
               </div>
-              
+
               <div className="flex flex-wrap gap-4">
                 <select
                   value={selectedCategory}
@@ -262,12 +263,12 @@ export default function TestimonialsPage() {
                 {/* Tous les témoignages */}
                 <div className="mb-12">
                   <h3 className="text-2xl font-bold text-foreground mb-6">
-                    {showFeaturedOnly ? 'Témoignages Mis en Avant' : 'Tous les Témoignages'} 
+                    {showFeaturedOnly ? 'Témoignages Mis en Avant' : 'Tous les Témoignages'}
                     <span className="text-muted-foreground text-lg ml-2">
                       ({testimonies.length})
                     </span>
                   </h3>
-                  
+
                   <div className="grid md:grid-cols-2 gap-6">
                     {regularTestimonials.map((testimonial, index) => (
                       <Card
@@ -312,9 +313,14 @@ export default function TestimonialsPage() {
 
                         <h3 className="text-lg font-bold text-foreground mb-3">{testimonial.title}</h3>
 
-                        <blockquote className="text-muted-foreground leading-relaxed italic border-l-4 border-primary/30 pl-4">
-                          {testimonial.content}
-                        </blockquote>
+                        {/* Zone de contenu avec scrollbar */}
+                        <div className="flex flex-col max-h-32">
+                          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                            <blockquote className="text-muted-foreground text-sm leading-relaxed italic border-l-4 border-primary/30 pl-4 pr-2 whitespace-pre-wrap break-words">
+                              {testimonial.content}
+                            </blockquote>
+                          </div>
+                        </div>
                       </Card>
                     ))}
                   </div>
@@ -340,8 +346,8 @@ export default function TestimonialsPage() {
                 Dieu a fait quelque chose de merveilleux dans votre vie ? Partagez votre témoignage pour encourager
                 d'autres personnes et glorifier le Seigneur.
               </p>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-primary hover:bg-primary/90"
                 onClick={() => setShowModal(true)}
               >
