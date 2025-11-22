@@ -2,8 +2,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart } from "lucide-react"
-import { Star, Landmark, Users } from "lucide-react";
+import { Heart, CreditCard, Building, Smartphone, CheckCircle, Gift, HandHeart, Award, Star, Landmark, Users  } from "lucide-react"
 
 export default function DonationPage() {
   return (
@@ -128,7 +127,7 @@ export default function DonationPage() {
       <div className="text-center mb-20">
         <div className="flex justify-center mb-4">
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-sm">
-            <Star className="w-8 h-8 text-primary" />
+            <Award className="w-8 h-8 text-primary" />
           </div>
         </div>
         <h2 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">Projets à Soutenir</h2>
