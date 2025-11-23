@@ -51,7 +51,7 @@ export default function ContactPage() {
                     <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                       Téléphone
                     </label>
-                    <Input id="phone" type="tel" placeholder="+229 XX XX XX XX" className="bg-background" />
+                    <Input id="phone" type="tel" placeholder="+229 01 95 86 33 19" className="bg-background" />
                   </div>
 
                   <div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-bold text-foreground mb-2">Téléphone</h3>
                       <p className="text-muted-foreground">+229 01 52 87 98 98</p>
-                      <p className="text-muted-foreground">+229 XX XX XX XX</p>
+                      <p className="text-muted-foreground">+229 01 95 86 33 19</p>
                     </div>
                   </div>
                 </Card>
