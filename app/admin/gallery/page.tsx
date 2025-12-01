@@ -201,7 +201,7 @@ export default function AdminGalleryPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Button asChild variant="ghost" size="sm">
-                          <Link href={`/gallery/albums/${album._id}`} >
+                          <Link href={`/admin/gallery/albums/${album._id}`} >
                             <ExternalLink className="h-4 w-4" />
                           </Link>
                         </Button>
@@ -303,7 +303,7 @@ export default function AdminGalleryPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Button asChild variant="ghost" size="sm">
-                          <Link href={`/gallery/videos/${video._id}`} target="_blank">
+                          <Link href={`/admin/gallery/videos/${video._id}`} target="_blank">
                             <ExternalLink className="h-4 w-4" />
                           </Link>
                         </Button>

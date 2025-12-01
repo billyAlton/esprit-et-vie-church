@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation"
 import { format } from "date-fns"
 import { Calendar, MapPin, Users, Edit, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react"
 import { DeleteEventButton } from "@/components/delete-event-button"
-import { EventService, Event } from "@/src/services/event.service"
+import { Event } from "@/src/services/event.service"
+import eventService from "@/src/services/event.service";
 import { Skeleton } from "@/components/ui/skeleton"
 import { BASE_URL } from "@/lib/apiCaller"
 
@@ -114,7 +115,7 @@ export default function EventDetailPage({
       try {
         setLoading(true)
         const { id } = await params
-        const eventData = await EventService.getEventById(id)
+        const eventData = await eventService.getEventById(id)
         setEvent(eventData)
       } catch (err: any) {
         console.error("Erreur chargement événement:", err.message)

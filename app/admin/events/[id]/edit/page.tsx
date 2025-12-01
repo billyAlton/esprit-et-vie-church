@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { EventForm } from "@/components/event-form"
-import { EventService, Event } from "@/src/services/event.service"
+import {  Event } from "@/src/services/event.service"
+import EventService from "@/src/services/event.service";
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"

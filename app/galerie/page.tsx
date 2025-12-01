@@ -177,28 +177,70 @@ export default function GalleryPage() {
                       className="overflow-hidden border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 cursor-pointer animate-in fade-in slide-in-from-bottom-5 duration-700"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <div className="relative h-48 overflow-hidden group">
-                        <img
-                          src={video.thumbnail || "/placeholder.svg"}
-                          alt={video.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                      {(() => {
+                        const containerId = `video-preview-${video._id}`
+                        const youtubeUrl = video.url || `https://www.youtube.com/watch?v=${video.youtubeId || video._id}`
+                        const embedIdMatch = (video.url || "").match(/[?&]v=([^&]+)/)
+                        const embedId = embedIdMatch ? embedIdMatch[1] : (video.youtubeId || video._id)
+                        const embedUrl = `https://www.youtube.com/embed/${embedId}?rel=0&modestbranding=1`
 
-                        {/* Play Button */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Video className="w-8 h-8 text-primary-foreground" />
+                        const handleImageLoad = (e: any) => {
+                          const el = document.getElementById(containerId)
+                          if (!el) return
+                          // after 10s replace the thumbnail with an iframe preview (keep the clickable overlay)
+                          setTimeout(() => {
+                            const media = el.querySelector(".media")
+                            if (!media) return
+
+                            const iframe = document.createElement("iframe")
+                            iframe.src = embedUrl
+                            iframe.allow =
+                              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            iframe.allowFullscreen = true
+                            iframe.style.width = "100%"
+                            iframe.style.height = "100%"
+                            iframe.style.border = "0"
+                            iframe.className = "media"
+
+                            media.replaceWith(iframe)
+                          }, 10000)
+                        }
+
+                        return (
+                          <div id={containerId} className="relative h-48 overflow-hidden group">
+                            {/* Clickable overlay that always opens YouTube in a new tab */}
+                            <a
+                              href={youtubeUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="absolute inset-0 z-40"
+                              aria-label={`Ouvrir ${video.title} sur YouTube`}
+                            />
+                            {/* Thumbnail (replaced by iframe after 10s) */}
+                            <img
+                              src={video.thumbnail || "/placeholder.svg"}
+                              alt={video.title}
+                              className="media w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              onLoad={handleImageLoad}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+
+                            {/* Play Button (visual only; clicks handled by the overlay link) */}
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <div className="w-16 h-16 bg-primary/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Video className="w-8 h-8 text-primary-foreground" />
+                              </div>
+                            </div>
+
+                            {/* Duration */}
+                            <div className="absolute bottom-3 right-3">
+                              <span className="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                                {video.duration}
+                              </span>
+                            </div>
                           </div>
-                        </div>
-
-                        {/* Duration */}
-                        <div className="absolute bottom-3 right-3">
-                          <span className="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
-                            {video.duration}
-                          </span>
-                        </div>
-                      </div>
+                        )
+                      })()}
 
                       <div className="p-4">
                         <h3 className="text-lg font-bold text-foreground mb-2">{video.title}</h3>
@@ -210,7 +252,7 @@ export default function GalleryPage() {
 
                 <div className="text-center mt-8">
                   <Button asChild size="lg" variant="outline" className="bg-transparent">
-                    <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="https://youtube.com/@ESPRITETVIEMEDIATV" target="_blank" rel="noopener noreferrer">
                       Voir toutes les vidéos sur YouTube
                     </Link>
                   </Button>

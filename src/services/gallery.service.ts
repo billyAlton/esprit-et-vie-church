@@ -28,6 +28,7 @@ export interface GalleryVideo {
   order: number;
   createdAt?: string;
   updatedAt?: string;
+  description?: string;
 }
 
 export const GalleryService = {
@@ -76,6 +77,19 @@ export const GalleryService = {
     }
   },
 
+  async getAlbumById(id: string): Promise<GalleryAlbum> {
+    try {
+      const response = await apiClient.get<{
+        success: boolean;
+        data: GalleryAlbum;
+      }>(`/gallery/albums/${id}`);
+      return response.data.data;
+    } catch (error: any) {
+      console.error(`Erreur chargement album ${id}:`, error.message);
+      throw error;
+    }
+  },
+
   // Vidéos
   async getVideos(params?: {
     category?: string;
@@ -108,6 +122,32 @@ export const GalleryService = {
       return response.data.data;
     } catch (error: any) {
       console.error(`Erreur mise à jour vidéo ${id}:`, error.message);
+      throw error;
+    }
+  },
+
+   async getVideoById(id: string): Promise<GalleryVideo> {
+    try {
+      const response = await apiClient.get<{
+        success: boolean;
+        data: GalleryVideo;
+      }>(`/gallery/videos/${id}`);
+      return response.data.data;
+    } catch (error: any) {
+      console.error(`Erreur chargement vidéo ${id}:`, error.message);
+      throw error;
+    }
+  },
+    async incrementViews(id: string): Promise<GalleryVideo> {
+    try {
+      const response = await apiClient.patch<{
+        success: boolean;
+        data: GalleryVideo;
+        message: string;
+      }>(`/gallery/videos/${id}/views`);
+      return response.data.data;
+    } catch (error: any) {
+      console.error(`Erreur incrémentation vues ${id}:`, error.message);
       throw error;
     }
   },
