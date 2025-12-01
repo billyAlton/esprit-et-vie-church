@@ -179,9 +179,9 @@ export default function GalleryPage() {
                     >
                       {(() => {
                         const containerId = `video-preview-${video._id}`
-                        const youtubeUrl = video.url || `https://www.youtube.com/watch?v=${video.youtubeId || video._id}`
-                        const embedIdMatch = (video.url || "").match(/[?&]v=([^&]+)/)
-                        const embedId = embedIdMatch ? embedIdMatch[1] : (video.youtubeId || video._id)
+                        const youtubeUrl = video.videoUrl || `https://www.youtube.com/watch?v=${video.youtubeId || video._id}`
+                        const embedIdMatch = (video.videoUrl || "").match(/[?&]v=([^&]+)/)
+                        const embedId = embedIdMatch ? embedIdMatch[1] : (video.videoUrl || video._id)
                         const embedUrl = `https://www.youtube.com/embed/${embedId}?rel=0&modestbranding=1`
 
                         const handleImageLoad = (e: any) => {
