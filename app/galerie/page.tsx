@@ -1,47 +1,51 @@
 // app/galerie/page.tsx
-"use client"
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ImageIcon, Video, Calendar, Loader2 } from "lucide-react"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { GalleryService, type GalleryAlbum, type GalleryVideo } from "@/src/services/gallery.service"
+"use client";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ImageIcon, Video, Calendar, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import {
+  GalleryService,
+  type GalleryAlbum,
+  type GalleryVideo,
+} from "@/src/services/gallery.service";
 
 export default function GalleryPage() {
-  const [albums, setAlbums] = useState<GalleryAlbum[]>([])
-  const [videos, setVideos] = useState<GalleryVideo[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [albums, setAlbums] = useState<GalleryAlbum[]>([]);
+  const [videos, setVideos] = useState<GalleryVideo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadGalleryData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const [albumsResponse, videosResponse] = await Promise.all([
           GalleryService.getAlbums({ published: true, limit: 12 }),
-          GalleryService.getVideos({ published: true, limit: 6 })
-        ])
-        setAlbums(albumsResponse.data)
-        setVideos(videosResponse.data)
+          GalleryService.getVideos({ published: true, limit: 6 }),
+        ]);
+        setAlbums(albumsResponse.data);
+        setVideos(videosResponse.data);
       } catch (err: any) {
-        setError("Erreur lors du chargement de la galerie")
-        console.error("Erreur:", err)
+        setError("Erreur lors du chargement de la galerie");
+        console.error("Erreur:", err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadGalleryData()
-  }, [])
+    loadGalleryData();
+  }, []);
 
   const formatViews = (views: number): string => {
     if (views >= 1000) {
-      return `${(views / 1000).toFixed(1)}k`
+      return `${(views / 1000).toFixed(1)}k`;
     }
-    return views.toString()
-  }
+    return views.toString();
+  };
 
   if (loading) {
     return (
@@ -55,7 +59,7 @@ export default function GalleryPage() {
         </div>
         <Footer />
       </main>
-    )
+    );
   }
 
   if (error) {
@@ -70,7 +74,7 @@ export default function GalleryPage() {
         </div>
         <Footer />
       </main>
-    )
+    );
   }
 
   return (
@@ -81,10 +85,13 @@ export default function GalleryPage() {
       <section className="relative pt-32 pb-20 bg-gradient-to-b from-primary/10 to-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-in fade-in slide-in-from-bottom-5 duration-700">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 text-balance">Galerie</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 text-balance">
+              Galerie
+            </h1>
             <div className="w-20 h-1 bg-primary mx-auto mb-6" />
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Revivez les moments forts de notre communauté à travers nos photos et vidéos
+              Revivez les moments forts de notre communauté à travers nos photos
+              et vidéos
             </p>
           </div>
         </div>
@@ -95,13 +102,17 @@ export default function GalleryPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Albums Photos</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Albums Photos
+              </h2>
               <div className="w-20 h-1 bg-primary" />
             </div>
 
             {albums.length === 0 ? (
               <Card className="p-8 text-center">
-                <p className="text-gray-600">Aucun album photo disponible pour le moment.</p>
+                <p className="text-gray-600">
+                  Aucun album photo disponible pour le moment.
+                </p>
               </Card>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -129,23 +140,45 @@ export default function GalleryPage() {
                       {/* Photo Count */}
                       <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
                         <ImageIcon className="w-5 h-5" />
-                        <span className="font-semibold">{album.photoCount} photos</span>
+                        <span className="font-semibold">
+                          {album.photoCount} photos
+                        </span>
                       </div>
                     </div>
 
                     <div className="p-5">
-                      <h3 className="text-xl font-bold text-foreground mb-2">{album.title}</h3>
+                      <h3 className="text-xl font-bold text-foreground mb-2">
+                        {album.title}
+                      </h3>
 
                       <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
+                        voir d
                         <Calendar className="w-4 h-4 text-primary" />
                         <span>{album.date}</span>
                       </div>
 
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">{album.description}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                        {album.description}
+                      </p>
 
-                      <Button asChild variant="outline" className="w-full bg-transparent">
+                      {/*  <Button asChild variant="outline" className="w-full bg-transparent">
                         <Link href={`/galerie/albums/${album._id}`}>Voir l'album</Link>
-                      </Button>
+                      </Button> */}
+                      {album._id && (
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="w-full bg-transparent"
+                        >
+                          <Link
+                            href={`/galerie/albums/${encodeURIComponent(
+                              album._id
+                            )}`}
+                          >
+                            Voir l'album
+                          </Link>
+                        </Button>
+                      )}
                     </div>
                   </Card>
                 ))}
@@ -160,13 +193,17 @@ export default function GalleryPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Vidéothèque</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Vidéothèque
+              </h2>
               <div className="w-20 h-1 bg-primary" />
             </div>
 
             {videos.length === 0 ? (
               <Card className="p-8 text-center">
-                <p className="text-gray-600">Aucune vidéo disponible pour le moment.</p>
+                <p className="text-gray-600">
+                  Aucune vidéo disponible pour le moment.
+                </p>
               </Card>
             ) : (
               <>
@@ -178,36 +215,47 @@ export default function GalleryPage() {
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
                       {(() => {
-                        const containerId = `video-preview-${video._id}`
-                        const youtubeUrl = video.videoUrl || `https://www.youtube.com/watch?v=${video.youtubeId || video._id}`
-                        const embedIdMatch = (video.videoUrl || "").match(/[?&]v=([^&]+)/)
-                        const embedId = embedIdMatch ? embedIdMatch[1] : (video.videoUrl || video._id)
-                        const embedUrl = `https://www.youtube.com/embed/${embedId}?rel=0&modestbranding=1`
+                        const containerId = `video-preview-${video._id}`;
+                        const youtubeUrl =
+                          video.videoUrl ||
+                          `https://www.youtube.com/watch?v=${
+                            video.youtubeId || video._id
+                          }`;
+                        const embedIdMatch = (video.videoUrl || "").match(
+                          /[?&]v=([^&]+)/
+                        );
+                        const embedId = embedIdMatch
+                          ? embedIdMatch[1]
+                          : video.videoUrl || video._id;
+                        const embedUrl = `https://www.youtube.com/embed/${embedId}?rel=0&modestbranding=1`;
 
                         const handleImageLoad = (e: any) => {
-                          const el = document.getElementById(containerId)
-                          if (!el) return
+                          const el = document.getElementById(containerId);
+                          if (!el) return;
                           // after 10s replace the thumbnail with an iframe preview (keep the clickable overlay)
                           setTimeout(() => {
-                            const media = el.querySelector(".media")
-                            if (!media) return
+                            const media = el.querySelector(".media");
+                            if (!media) return;
 
-                            const iframe = document.createElement("iframe")
-                            iframe.src = embedUrl
+                            const iframe = document.createElement("iframe");
+                            iframe.src = embedUrl;
                             iframe.allow =
-                              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            iframe.allowFullscreen = true
-                            iframe.style.width = "100%"
-                            iframe.style.height = "100%"
-                            iframe.style.border = "0"
-                            iframe.className = "media"
+                              "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                            iframe.allowFullscreen = true;
+                            iframe.style.width = "100%";
+                            iframe.style.height = "100%";
+                            iframe.style.border = "0";
+                            iframe.className = "media";
 
-                            media.replaceWith(iframe)
-                          }, 10000)
-                        }
+                            media.replaceWith(iframe);
+                          }, 10000);
+                        };
 
                         return (
-                          <div id={containerId} className="relative h-48 overflow-hidden group">
+                          <div
+                            id={containerId}
+                            className="relative h-48 overflow-hidden group"
+                          >
                             {/* Clickable overlay that always opens YouTube in a new tab */}
                             <a
                               href={youtubeUrl}
@@ -239,20 +287,33 @@ export default function GalleryPage() {
                               </span>
                             </div>
                           </div>
-                        )
+                        );
                       })()}
 
                       <div className="p-4">
-                        <h3 className="text-lg font-bold text-foreground mb-2">{video.title}</h3>
-                        <p className="text-sm text-muted-foreground">{formatViews(video.views)} vues</p>
+                        <h3 className="text-lg font-bold text-foreground mb-2">
+                          {video.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {formatViews(video.views)} vues
+                        </p>
                       </div>
                     </Card>
                   ))}
                 </div>
 
                 <div className="text-center mt-8">
-                  <Button asChild size="lg" variant="outline" className="bg-transparent">
-                    <Link href="https://youtube.com/@ESPRITETVIEMEDIATV" target="_blank" rel="noopener noreferrer">
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="bg-transparent"
+                  >
+                    <Link
+                      href="https://youtube.com/@ESPRITETVIEMEDIATV"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Voir toutes les vidéos sur YouTube
                     </Link>
                   </Button>
@@ -265,5 +326,5 @@ export default function GalleryPage() {
 
       <Footer />
     </main>
-  )
+  );
 }
