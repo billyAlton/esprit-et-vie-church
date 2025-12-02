@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight, ZoomIn, Download, Info } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Photo {
