@@ -137,6 +137,14 @@ export default function DonationPage() {
         </p>
       </div>
 
+            <div className="grid md:grid-cols-2 gap-8">
+                <Card className="p-6 md:p-8 border-border shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1 hover:scale-[1.01]">
+                  <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-24 h-24 rounded-lg bg-gradient-to-tr from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10">
+                    <HandHeart className="w-10 h-10 text-primary" />
+                    </div>
+                  </div>
       <div className="grid md:grid-cols-2 gap-12">
 
         {/* Projet 1 */}
@@ -200,6 +208,42 @@ export default function DonationPage() {
               <li>Accompagnement familial et insertion sociale</li>
             </ul>
 
+                  <div className="bg-muted p-3 rounded-md text-sm">
+                    <p className="font-semibold text-foreground mb-1">Exemples d'impact (montant libre) :</p>
+                    <ul className="text-muted-foreground list-disc ml-5">
+                      <li>Petit don : fournitures scolaires pour un enfant</li>
+                      <li>Don moyen : suivi médical et nutritionnel sur plusieurs mois</li>
+                      <li>Don généreux : prise en charge complète (éducation, santé, encadrement)</li>
+                    </ul>
+                    <p className="text-xs text-muted-foreground mt-2">Montant libre — choisissez ce qui vous convient, chaque contribution compte.</p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Progrès actuel du programme</p>
+                    <div className="w-full bg-muted rounded-full h-3 overflow-hidden" role="progressbar" aria-valuenow={42} aria-valuemin={0} aria-valuemax={100}>
+                      <div className="h-3 bg-primary" style={{ width: "10%" }} />
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">La graine a germé, faisons-la grandir ensemble.</p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-3 mt-2">
+                    <Button className="w-full sm:flex-1 bg-primary hover:bg-primary/90">
+                      Soutenir ce projet
+                    </Button>
+                    <button
+                      type="button"
+                      className="w-full sm:w-auto px-4 py-2 rounded-md border border-border text-sm text-foreground bg-transparent hover:bg-muted transition"
+                    >
+                      En savoir plus
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Transparence : rapports trimestriels publiés et possibilité de recevoir un bilan personnalisé sur demande.
+                    Votre don est sécurisé et utilisé localement.
+                  </p>
+                </div>
+              </Card>
             <div className="bg-muted/60 p-4 rounded-lg text-sm border border-border/40">
               <p className="font-semibold text-foreground mb-2">Exemples d’impact (montant libre) :</p>
               <ul className="text-muted-foreground list-disc ml-5 space-y-1">
