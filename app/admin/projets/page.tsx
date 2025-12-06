@@ -199,11 +199,11 @@ export default function ProjectsPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button asChild variant="outline">
+          {/* <Button asChild variant="outline">
             <Link href="/admin/projets/stats">
               Statistiques
             </Link>
-          </Button>
+          </Button> */}
           <Button asChild>
             <Link href="/admin/projets/new">
               <Plus className="mr-2 h-4 w-4" />

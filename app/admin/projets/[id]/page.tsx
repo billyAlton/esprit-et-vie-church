@@ -187,13 +187,13 @@ export default function ProjectDetailPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => router.push("/admin/projects")}
+            onClick={() => router.push("/admin/projets")}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900 break-words ">
               {project.title}
             </h1>
             <p className="text-gray-600 mt-1">Détails du projet</p>
