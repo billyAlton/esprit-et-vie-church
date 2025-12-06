@@ -4,19 +4,19 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ArrowLeft, 
-  Calendar, 
-  User, 
-  Mail, 
-  MapPin, 
-  Heart, 
-  Edit, 
+import {
+  ArrowLeft,
+  Calendar,
+  User,
+  Mail,
+  MapPin,
+  Heart,
+  Edit,
   Trash2,
   CheckCircle,
   XCircle,
   Clock,
-  Archive
+  Archive,
 } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -44,7 +44,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 // Composants réutilisables depuis la page principale
 function StatusBadge({ status }: { status: string }) {
@@ -53,10 +53,11 @@ function StatusBadge({ status }: { status: string }) {
     approved: { label: "Approuvé", variant: "default" as const },
     scheduled: { label: "Programmé", variant: "outline" as const },
     archived: { label: "Archivé", variant: "secondary" as const },
-    rejected: { label: "Rejeté", variant: "destructive" as const }
+    rejected: { label: "Rejeté", variant: "destructive" as const },
   };
 
-  const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.pending;
+  const config =
+    statusConfig[status as keyof typeof statusConfig] || statusConfig.pending;
 
   return (
     <Badge variant={config.variant} className="capitalize">
@@ -72,14 +73,20 @@ function CategoryBadge({ category }: { category: string }) {
     finances: { label: "Finances", color: "bg-yellow-100 text-yellow-800" },
     delivrance: { label: "Délivrance", color: "bg-purple-100 text-purple-800" },
     miracle: { label: "Miracle", color: "bg-red-100 text-red-800" },
-    transformation: { label: "Transformation", color: "bg-indigo-100 text-indigo-800" },
-    autre: { label: "Autre", color: "bg-gray-100 text-gray-800" }
+    transformation: {
+      label: "Transformation",
+      color: "bg-indigo-100 text-indigo-800",
+    },
+    autre: { label: "Autre", color: "bg-gray-100 text-gray-800" },
   };
 
-  const categoryConfig = categories[category as keyof typeof categories] || categories.autre;
+  const categoryConfig =
+    categories[category as keyof typeof categories] || categories.autre;
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryConfig.color}`}>
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryConfig.color}`}
+    >
       {categoryConfig.label}
     </span>
   );
@@ -119,17 +126,18 @@ export default function TestimonyDetailPage() {
 
     try {
       setIsUpdating(true);
-      const updatedTestimony = await TestimonyService.updateTestimonyStatus(testimonyId, {
-        status: newStatus
-      });
-      
-      setTestimony(updatedTestimony);
-      
-      toast(`Le témoignage a été ${getStatusLabel(newStatus)} avec succès.`);
+      const updatedTestimony = await TestimonyService.updateTestimonyStatus(
+        testimonyId,
+        {
+          status: newStatus,
+        }
+      );
 
+      setTestimony(updatedTestimony);
+
+      toast(`Le témoignage a été ${getStatusLabel(newStatus)} avec succès.`);
     } catch (err: any) {
       toast(`Le témoignage a rencontrer une erreur`);
-
     } finally {
       setIsUpdating(false);
     }
@@ -139,14 +147,12 @@ export default function TestimonyDetailPage() {
     try {
       setIsUpdating(true);
       await TestimonyService.deleteTestimony(testimonyId);
-      
+
       toast(`Le témoignage a été supprime avec succès.`);
 
-      
       router.push("/admin/testimonies");
     } catch (err: any) {
       toast(`Erreur de suppression`);
-
     } finally {
       setIsUpdating(false);
       setIsDeleteDialogOpen(false);
@@ -159,7 +165,7 @@ export default function TestimonyDetailPage() {
       approved: "approuvé",
       scheduled: "programmé",
       archived: "archivé",
-      rejected: "rejeté"
+      rejected: "rejeté",
     };
     return labels[status] || status;
   };
@@ -169,18 +175,19 @@ export default function TestimonyDetailPage() {
 
     try {
       setIsUpdating(true);
-      const updatedTestimony = await TestimonyService.updateTestimonyStatus(testimonyId, {
-        status: testimony.status,
-        is_featured: !testimony.is_featured
-      });
-      
-      setTestimony(updatedTestimony);
-      
-      toast(`Le témoignage a été mis en avant avec succès.`);
+      const updatedTestimony = await TestimonyService.updateTestimonyStatus(
+        testimonyId,
+        {
+          status: testimony.status,
+          is_featured: !testimony.is_featured,
+        }
+      );
 
+      setTestimony(updatedTestimony);
+
+      toast(`Le témoignage a été mis en avant avec succès.`);
     } catch (err: any) {
       toast(`Erreur de modification.`);
-
     } finally {
       setIsUpdating(false);
     }
@@ -214,16 +221,24 @@ export default function TestimonyDetailPage() {
       {/* En-tête */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => router.push("/admin/testimonies")}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => router.push("/admin/testimonies")}
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Détail du témoignage</h1>
-            <p className="text-gray-600 mt-1">Informations complètes du témoignage</p>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Détail du témoignage
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Informations complètes du témoignage
+            </p>
           </div>
         </div>
-        
+
         <div className="flex gap-2">
           {/* Menu déroulant pour les actions rapides */}
           <DropdownMenu>
@@ -236,41 +251,41 @@ export default function TestimonyDetailPage() {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>Modifier le statut</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              
-              <DropdownMenuItem 
-                onClick={() => handleStatusUpdate('approved')}
-                disabled={testimony.status === 'approved' || isUpdating}
+
+              <DropdownMenuItem
+                onClick={() => handleStatusUpdate("approved")}
+                disabled={testimony.status === "approved" || isUpdating}
               >
                 <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
                 Approuver
               </DropdownMenuItem>
-              
-              <DropdownMenuItem 
-                onClick={() => handleStatusUpdate('pending')}
-                disabled={testimony.status === 'pending' || isUpdating}
+
+              <DropdownMenuItem
+                onClick={() => handleStatusUpdate("pending")}
+                disabled={testimony.status === "pending" || isUpdating}
               >
                 <Clock className="mr-2 h-4 w-4 text-yellow-600" />
                 Mettre en attente
               </DropdownMenuItem>
-              
-              <DropdownMenuItem 
-                onClick={() => handleStatusUpdate('rejected')}
-                disabled={testimony.status === 'rejected' || isUpdating}
+
+              <DropdownMenuItem
+                onClick={() => handleStatusUpdate("rejected")}
+                disabled={testimony.status === "rejected" || isUpdating}
               >
                 <XCircle className="mr-2 h-4 w-4 text-red-600" />
                 Rejeter
               </DropdownMenuItem>
-              
-              <DropdownMenuItem 
-                onClick={() => handleStatusUpdate('archived')}
-                disabled={testimony.status === 'archived' || isUpdating}
+
+              <DropdownMenuItem
+                onClick={() => handleStatusUpdate("archived")}
+                disabled={testimony.status === "archived" || isUpdating}
               >
                 <Archive className="mr-2 h-4 w-4 text-gray-600" />
                 Archiver
               </DropdownMenuItem>
-              
+
               <DropdownMenuSeparator />
-              
+
               <DropdownMenuItem onClick={toggleFeatured} disabled={isUpdating}>
                 {testimony.is_featured ? (
                   <>
@@ -296,8 +311,8 @@ export default function TestimonyDetailPage() {
           </Button> */}
 
           {/* Bouton de suppression */}
-          <Button 
-            variant="destructive" 
+          <Button
+            variant="destructive"
             onClick={() => setIsDeleteDialogOpen(true)}
             disabled={isUpdating}
           >
@@ -319,25 +334,28 @@ export default function TestimonyDetailPage() {
                   <StatusBadge status={testimony.status} />
                   <CategoryBadge category={testimony.category} />
                   {testimony.is_featured && (
-                    <Badge variant="default" className="bg-yellow-100 text-yellow-800">
+                    <Badge
+                      variant="default"
+                      className="bg-yellow-100 text-yellow-800"
+                    >
                       Mis en avant
                     </Badge>
                   )}
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 break-words">
               {/* Contenu du témoignage */}
-<div>
-  <h3 className="font-semibold text-gray-900 mb-3">Témoignage</h3>
-  <div className="relative h-64">
-    <div className="absolute inset-0 overflow-y-auto rounded-lg border bg-gray-50 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-      <blockquote className="text-gray-700 text-base leading-relaxed italic p-4 whitespace-pre-wrap break-words">
-        {testimony.content}
-      </blockquote>
-    </div>
-  </div>
-</div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-3">Témoignage</h3>
+                <div className="relative h-64">
+                  <div className="absolute inset-0 overflow-y-auto rounded-lg border bg-gray-50 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                    <blockquote className="text-gray-700 text-base leading-relaxed italic p-4 whitespace-pre-wrap break-words">
+                      {testimony.content}
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
 
               {/* Images */}
               {testimony.images && testimony.images.length > 0 && (
@@ -347,7 +365,10 @@ export default function TestimonyDetailPage() {
                   </h3>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {testimony.images.map((image, index) => (
-                      <div key={index} className="aspect-square rounded-lg overflow-hidden border">
+                      <div
+                        key={index}
+                        className="aspect-square rounded-lg overflow-hidden border"
+                      >
                         <img
                           src={`${image}`}
                           alt={`${testimony.title} - Image ${index + 1}`}
@@ -367,21 +388,27 @@ export default function TestimonyDetailPage() {
           {/* Informations de l'auteur */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Informations de l'auteur</CardTitle>
+              <CardTitle className="text-lg">
+                Informations de l'auteur
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 break-words">
               <div className="flex items-center gap-3">
                 <User className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-gray-900">{testimony.author_name}</p>
+                  <p className="font-medium text-gray-900">
+                    {testimony.author_name}
+                  </p>
                   <p className="text-sm text-gray-500">Auteur</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-gray-900">{testimony.author_name}</p>
+                  <p className="font-medium text-gray-900">
+                    {testimony.author_name}
+                  </p>
                   <p className="text-sm text-gray-500">Auteur</p>
                 </div>
               </div>
@@ -390,7 +417,9 @@ export default function TestimonyDetailPage() {
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-gray-400" />
                   <div>
-                    <p className="font-medium text-gray-900">{testimony.author_location}</p>
+                    <p className="font-medium text-gray-900">
+                      {testimony.author_location}
+                    </p>
                     <p className="text-sm text-gray-500">Localisation</p>
                   </div>
                 </div>
@@ -403,12 +432,15 @@ export default function TestimonyDetailPage() {
             <CardHeader>
               <CardTitle className="text-lg">Métadonnées</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 break-words">
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-gray-400" />
                 <div>
                   <p className="font-medium text-gray-900">
-                    {testimony.createdAt && format(new Date(testimony.createdAt), "PPP", { locale: fr })}
+                    {testimony.createdAt &&
+                      format(new Date(testimony.createdAt), "PPP", {
+                        locale: fr,
+                      })}
                   </p>
                   <p className="text-sm text-gray-500">Date de soumission</p>
                 </div>
@@ -419,9 +451,13 @@ export default function TestimonyDetailPage() {
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">
-                      {format(new Date(testimony.updatedAt), "PPP", { locale: fr })}
+                      {format(new Date(testimony.updatedAt), "PPP", {
+                        locale: fr,
+                      })}
                     </p>
-                    <p className="text-sm text-gray-500">Date d'e modification</p>
+                    <p className="text-sm text-gray-500">
+                      Date d'e modification
+                    </p>
                   </div>
                 </div>
               )}
@@ -439,9 +475,13 @@ export default function TestimonyDetailPage() {
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">
-                      {format(new Date(testimony.scheduled_date), "PPP", { locale: fr })}
+                      {format(new Date(testimony.scheduled_date), "PPP", {
+                        locale: fr,
+                      })}
                     </p>
-                    <p className="text-sm text-gray-500">Date de programmation</p>
+                    <p className="text-sm text-gray-500">
+                      Date de programmation
+                    </p>
                   </div>
                 </div>
               )}
@@ -451,17 +491,23 @@ export default function TestimonyDetailPage() {
       </div>
 
       {/* Dialog de confirmation de suppression */}
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Êtes-vous sûr de vouloir supprimer ce témoignage ?</AlertDialogTitle>
+            <AlertDialogTitle>
+              Êtes-vous sûr de vouloir supprimer ce témoignage ?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Cette action est irréversible. Le témoignage "{testimony.title}" sera définitivement supprimé.
+              Cette action est irréversible. Le témoignage "{testimony.title}"
+              sera définitivement supprimé.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isUpdating}>Annuler</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDelete}
               disabled={isUpdating}
               className="bg-destructive text-default-foreground hover:bg-destructive/90"
@@ -549,5 +595,3 @@ function TestimonyDetailSkeleton() {
     </div>
   );
 }
-
-
