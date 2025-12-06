@@ -51,7 +51,7 @@ export default function ContactPage() {
                     <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">
                       Téléphone
                     </label>
-                    <Input id="phone" type="tel" placeholder="+229 XX XX XX XX" className="bg-background" />
+                    <Input id="phone" type="tel" placeholder="+229 01 95 86 33 19" className="bg-background" />
                   </div>
 
                   <div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-bold text-foreground mb-2">Téléphone</h3>
                       <p className="text-muted-foreground">+229 01 52 87 98 98</p>
-                      <p className="text-muted-foreground">+229 XX XX XX XX</p>
+                      <p className="text-muted-foreground">+229 01 95 86 33 19</p>
                     </div>
                   </div>
                 </Card>
@@ -178,11 +178,12 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
               >
                 <div className="aspect-video bg-muted flex items-center justify-center">
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <MapPin className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">Carte Google Maps</p>
                     <p className="text-sm text-muted-foreground">Paroisse Esprit et Vie, Calavi, Bénin</p>
-                  </div>
+                  </div> */}
+                  <iframe className="" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4455.745298507692!2d2.310340819095908!3d6.4445788895812!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1024a9003a283a05%3A0xf489dc52f562a379!2sECC%20ESPRIT%20ET%20VIE!5e0!3m2!1sfr!2sbj!4v1763565641959!5m2!1sfr!2sbj" width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </a>
             </Card>

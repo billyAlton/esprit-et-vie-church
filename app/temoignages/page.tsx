@@ -5,7 +5,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Quote, Calendar, User, Heart, X, Loader2, Filter } from "lucide-react"
+import { Quote, Calendar, User, Heart, X, Loader2, Filter, ChevronRight, ChevronLeft } from "lucide-react"
 import { TestimonyForm } from "@/components/testimony-form"
 import { TestimonyService, Testimony } from "@/src/services/testimony.service"
 
@@ -27,6 +27,7 @@ export default function TestimonialsPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false)
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Fonction pour formater la date
   const formatDate = (dateString: string) => {
@@ -135,7 +136,7 @@ export default function TestimonialsPage() {
                 <Filter className="w-5 h-5 text-muted-foreground" />
                 <span className="text-sm font-medium text-foreground">Filtrer par :</span>
               </div>
-              
+
               <div className="flex flex-wrap gap-4">
                 <select
                   value={selectedCategory}
@@ -262,61 +263,111 @@ export default function TestimonialsPage() {
                 {/* Tous les témoignages */}
                 <div className="mb-12">
                   <h3 className="text-2xl font-bold text-foreground mb-6">
-                    {showFeaturedOnly ? 'Témoignages Mis en Avant' : 'Tous les Témoignages'} 
+                    {showFeaturedOnly ? 'Témoignages Mis en Avant' : 'Tous les Témoignages'}
                     <span className="text-muted-foreground text-lg ml-2">
                       ({testimonies.length})
                     </span>
                   </h3>
-                  
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {regularTestimonials.map((testimonial, index) => (
-                      <Card
-                        key={testimonial._id}
-                        className="p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] animate-in fade-in slide-in-from-bottom-5 duration-700"
-                        style={{ animationDelay: `${index * 100}ms` }}
+
+                  <div className="relative">
+                    {/* Flèches de navigation */}
+                    {regularTestimonials.length > 2 && (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white -ml-4"
+                          onClick={() => setCurrentSlide((prev) => (prev === 0 ? Math.ceil(regularTestimonials.length / 2) - 1 : prev - 1))}
+                        >
+                          <ChevronLeft className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white/80 hover:bg-white -mr-4"
+                          onClick={() => setCurrentSlide((prev) => (prev >= Math.ceil(regularTestimonials.length / 2) - 1 ? 0 : prev + 1))}
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </Button>
+                      </>
+                    )}
+
+                    {/* Carousel */}
+                    <div className="overflow-hidden">
+                      <div
+                        className="flex transition-transform duration-300 ease-in-out gap-6"
+                        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                       >
-                        <div className="flex items-start gap-4 mb-4">
-                          <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                            {testimonial.images && testimonial.images.length > 0 ? (
-                              <img
-                                src={testimonial.images[0]}
-                                alt={testimonial.author_name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <img
-                                src={getCategoryImage(testimonial.category)}
-                                alt={testimonial.author_name}
-                                className="w-full h-full object-cover"
-                              />
-                            )}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <h4 className="font-bold text-foreground">{testimonial.author_name}</h4>
-                                {testimonial.author_location && (
-                                  <p className="text-sm text-muted-foreground">{testimonial.author_location}</p>
-                                )}
+                        {regularTestimonials.map((testimonial, index) => (
+                          <div key={testimonial._id} className="flex-shrink-0 w-full md:w-1/2 px-2">
+                            <Card
+                              className="p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] animate-in fade-in slide-in-from-bottom-5 duration-700 h-full"
+                              style={{ animationDelay: `${index * 100}ms` }}
+                            >
+                              <div className="flex items-start gap-4 mb-4">
+                                <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                                  {testimonial.images && testimonial.images.length > 0 ? (
+                                    <img
+                                      src={testimonial.images[0]}
+                                      alt={testimonial.author_name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <img
+                                      src={getCategoryImage(testimonial.category)}
+                                      alt={testimonial.author_name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-start justify-between mb-2">
+                                    <div className="min-w-0 flex-1">
+                                      <h4 className="font-bold text-foreground truncate">{testimonial.author_name}</h4>
+                                      {testimonial.author_location && (
+                                        <p className="text-sm text-muted-foreground truncate">{testimonial.author_location}</p>
+                                      )}
+                                    </div>
+                                    <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ml-2 flex-shrink-0">
+                                      {CATEGORIES.find(cat => cat.value === testimonial.category)?.label || testimonial.category}
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                    <Calendar className="w-3 h-3" />
+                                    <span>{formatDate(testimonial.createdAt)}</span>
+                                  </div>
+                                </div>
                               </div>
-                              <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                                {CATEGORIES.find(cat => cat.value === testimonial.category)?.label || testimonial.category}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <Calendar className="w-3 h-3" />
-                              <span>{formatDate(testimonial.createdAt)}</span>
-                            </div>
+
+                              <h3 className="text-lg font-bold text-foreground mb-3 line-clamp-2">{testimonial.title}</h3>
+
+                              {/* Zone de contenu avec scrollbar */}
+                              <div className="flex flex-col max-h-32">
+                                <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                                  <blockquote className="text-muted-foreground text-sm leading-relaxed italic border-l-4 border-primary/30 pl-4 pr-2 whitespace-pre-wrap break-words">
+                                    {testimonial.content}
+                                  </blockquote>
+                                </div>
+                              </div>
+                            </Card>
                           </div>
-                        </div>
+                        ))}
+                      </div>
+                    </div>
 
-                        <h3 className="text-lg font-bold text-foreground mb-3">{testimonial.title}</h3>
-
-                        <blockquote className="text-muted-foreground leading-relaxed italic border-l-4 border-primary/30 pl-4">
-                          {testimonial.content}
-                        </blockquote>
-                      </Card>
-                    ))}
+                    {/* Indicateurs de slide */}
+                    {regularTestimonials.length > 2 && (
+                      <div className="flex justify-center gap-2 mt-6">
+                        {Array.from({ length: Math.ceil(regularTestimonials.length / 2) }).map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`w-3 h-3 rounded-full transition-all ${currentSlide === index ? 'bg-primary' : 'bg-gray-300'
+                              }`}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </>
@@ -340,8 +391,8 @@ export default function TestimonialsPage() {
                 Dieu a fait quelque chose de merveilleux dans votre vie ? Partagez votre témoignage pour encourager
                 d'autres personnes et glorifier le Seigneur.
               </p>
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="bg-primary hover:bg-primary/90"
                 onClick={() => setShowModal(true)}
               >

@@ -123,3 +123,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* app/globals.css */
+/* Pour forcer le wrap des mots longs */
+.break-words {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Pour les textes très longs */
+.overflow-wrap-break-word {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Pour les titres très longs */
+.truncate-multiline {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Nombre de lignes maximum */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Pour les descriptions longues avec scroll si nécessaire */
+.scrollable-content {
+  max-height: 400px;
+  overflow-y: auto;
+}
