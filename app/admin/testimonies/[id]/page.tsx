@@ -381,8 +381,8 @@ export default function TestimonyDetailPage() {
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-gray-400" />
                 <div>
-                  <p className="font-medium text-gray-900">{testimony.author_email}</p>
-                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="font-medium text-gray-900">{testimony.author_name}</p>
+                  <p className="text-sm text-gray-500">Auteur</p>
                 </div>
               </div>
 
@@ -414,14 +414,14 @@ export default function TestimonyDetailPage() {
                 </div>
               </div>
 
-              {testimony.approved_at && (
+              {testimony.updatedAt && (
                 <div className="flex items-center gap-3">
                   <Calendar className="h-5 w-5 text-gray-400" />
                   <div>
                     <p className="font-medium text-gray-900">
-                      {format(new Date(testimony.approved_at), "PPP", { locale: fr })}
+                      {format(new Date(testimony.updatedAt), "PPP", { locale: fr })}
                     </p>
-                    <p className="text-sm text-gray-500">Date d'approbation</p>
+                    <p className="text-sm text-gray-500">Date d'e modification</p>
                   </div>
                 </div>
               )}
