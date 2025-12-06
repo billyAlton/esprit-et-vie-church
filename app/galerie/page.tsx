@@ -219,7 +219,7 @@ export default function GalleryPage() {
                         const youtubeUrl =
                           video.videoUrl ||
                           `https://www.youtube.com/watch?v=${
-                            video.youtubeId || video._id
+                            video.videoUrl || video._id
                           }`;
                         const embedIdMatch = (video.videoUrl || "").match(
                           /[?&]v=([^&]+)/

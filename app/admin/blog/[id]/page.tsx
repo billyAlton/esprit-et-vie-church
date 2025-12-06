@@ -203,7 +203,7 @@ export default function BlogPostDetailPage() {
                   </p>
                 </div>
               )}
-              <div className="text-gray-700 whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto p-4 border rounded w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+              <div className="text-gray-700 break-words whitespace-pre-wrap leading-relaxed p-4 border rounded w-full">
                 {post.content}
               </div>
             </CardContent>
@@ -342,7 +342,7 @@ export default function BlogPostDetailPage() {
 
               {post.status === "draft" && (
                 <Button asChild className="w-full" variant="outline">
-                  <Link href={`/blog/${post.slug}`} target="_blank">
+                  <Link href={`/blog/${post._id}`} target="_blank">
                     <Eye className="mr-2 h-4 w-4" />
                     Prévisualiser
                   </Link>
@@ -351,7 +351,7 @@ export default function BlogPostDetailPage() {
 
               {post.status === "published" && (
                 <Button asChild className="w-full" variant="outline">
-                  <Link href={`/blog/${post.slug}`} target="_blank">
+                  <Link href={`/blog/${post._id}`} target="_blank">
                     <Eye className="mr-2 h-4 w-4" />
                     Voir en ligne
                   </Link>

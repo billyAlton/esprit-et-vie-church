@@ -100,11 +100,9 @@ export default function BlogDetailPage() {
                     <p className="text-blue-800 leading-relaxed">{post.excerpt}</p>
                   </div>
                 )}
-                <div
-                  className="text-gray-700 whitespace-pre-wrap leading-relaxed max-h-[500px] overflow-y-auto p-4 border rounded w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-                >
-                  {post.content}
-                </div>
+                <div className="text-gray-700 break-words whitespace-pre-wrap leading-relaxed p-4 border rounded w-full">
+                {post.content}
+              </div>
               </CardContent>
             </Card>
 

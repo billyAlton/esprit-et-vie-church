@@ -73,7 +73,7 @@ export class TestimonyService {
   }
 
   // 🟣 Récupérer un témoignage par ID (admin)
-  async getTestimonyById(id: string): Promise<Testimony> {
+  static async getTestimonyById(id: string): Promise<Testimony> {
     try {
       const response = await apiClient.get<any>(`/testimonies/admin/${id}`);
       console.log("===== ", response.data)
@@ -105,7 +105,7 @@ export class TestimonyService {
   }
 
   // 🟠 Mettre à jour le statut d'un témoignage (admin)
-  async updateTestimonyStatus(
+  static async updateTestimonyStatus(
     id: string, 
     data: { 
       status: string; 
@@ -129,7 +129,7 @@ export class TestimonyService {
   }
 
   // 🔴 Supprimer un témoignage (admin)
-  async deleteTestimony(id: string): Promise<void> {
+  static async deleteTestimony(id: string): Promise<void> {
     try {
       const response = await apiClient.delete(`/testimonies/admin/${id}`);
       return response.data;
@@ -143,7 +143,7 @@ export class TestimonyService {
   }
 
   // 📊 Récupérer les statistiques (admin)
-  async getTestimonyStats(): Promise<TestimonyStats> {
+  static async getTestimonyStats(): Promise<TestimonyStats> {
     try {
       const response = await apiClient.get<TestimonyStats>("/testimonies/admin/stats");
       return response.data;
@@ -157,7 +157,7 @@ export class TestimonyService {
   }
 
   // 📝 Récupérer tous les témoignages (admin avec filtres)
-  async getAllTestimonies(params?: {
+  static async getAllTestimonies(params?: {
     status?: string;
     category?: string;
     page?: number;
@@ -176,7 +176,7 @@ export class TestimonyService {
   }
 
   // ❤️ Ajouter/retirer un like (public)
-  async toggleLike(testimonyId: string): Promise<{ success: boolean; likes: number }> {
+  static async toggleLike(testimonyId: string): Promise<{ success: boolean; likes: number }> {
     try {
       const response = await apiClient.post<{ success: boolean; likes: number }>(
         `/testimonies/${testimonyId}/like`
@@ -192,7 +192,7 @@ export class TestimonyService {
   }
 
   // 🔍 Rechercher des témoignages (public)
-  async searchTestimonies(query: string, params?: {
+  static async searchTestimonies(query: string, params?: {
     category?: string;
     page?: number;
     limit?: number;

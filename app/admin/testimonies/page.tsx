@@ -7,7 +7,8 @@ import Link from "next/link";
 import { Plus, Calendar, User, Mail, MapPin, Eye, Edit, Filter, X, CheckCircle, Clock, Archive } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { TestimonyService, Testimony } from "@/src/services/testimony.service";
+import { Testimony } from "@/src/services/testimony.service";
+import {TestimonyService} from "@/src/services/testimony.service";
 import { BASE_URL } from "@/lib/apiCaller";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -119,7 +120,7 @@ export default function TestimoniesPage() {
         testimony.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         testimony.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
         testimony.author_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        testimony.author_email.toLowerCase().includes(searchTerm.toLowerCase())
+        testimony.author_name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -308,7 +309,7 @@ export default function TestimoniesPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Mail className="h-4 w-4" />
-                        <span>{testimony.author_email}</span>
+                        <span>{testimony.author_name}</span>
                       </div>
                       {testimony.author_location && (
                         <div className="flex items-center gap-2">
