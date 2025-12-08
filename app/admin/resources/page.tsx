@@ -328,9 +328,9 @@ function ResourceCard({
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow h-full max-h-[320px] flex flex-col w-full">
-      <CardContent className="p-4 flex flex-col h-full w-full">
-        <div className="flex flex-col md:flex-row gap-4 h-full w-full">
+    <Card className="hover:shadow-lg transition-shadow w-full">
+      <CardContent className="p-4">
+        <div className="flex flex-col md:flex-row gap-4">
           {/* Icône */}
           <div className="flex-shrink-0">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center">
@@ -338,32 +338,14 @@ function ResourceCard({
             </div>
           </div>
 
-          {/* Contenu scrollable */}
-          <div className="flex-1 min-w-0 overflow-y-auto pr-1 w-full">
-            {/* En-tête avec titre et boutons */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 w-full">
-              <div className="flex-1 min-w-0 w-full">
-                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2 max-w-full">
+          {/* Contenu principal avec hauteur fixe et scroll */}
+          <div className="flex-1 min-w-0 flex flex-col" style={{ maxHeight: '180px' }}>
+            {/* En-tête - partie fixe */}
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2 flex-shrink-0">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2">
                   {resource.title}
                 </h3>
-
-                <div className="mt-1 text-gray-600 text-sm break-words line-clamp-3 max-w-full">
-                  {resource.description}
-                </div>
-
-                <div className="flex flex-wrap gap-1 mt-2">
-                  <Badge variant="secondary">
-                    {getCategoryLabel(resource.category)}
-                  </Badge>
-                  <Badge variant={resource.is_published ? "default" : "outline"}>
-                    {resource.is_published ? "Publié" : "Brouillon"}
-                  </Badge>
-                  {resource.file_type !== "none" && (
-                    <Badge variant="outline">
-                      {getFileTypeLabel(resource.file_type)}
-                    </Badge>
-                  )}
-                </div>
               </div>
 
               {/* Boutons d'action */}
@@ -381,52 +363,70 @@ function ResourceCard({
               </div>
             </div>
 
-            {/* Métadonnées */}
-            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 w-full">
-              {resource.pages && (
-                <span>Pages: {resource.pages}</span>
-              )}
-              {resource.duration && (
-                <span>Durée: {resource.duration}</span>
-              )}
-              {resource.artist && (
-                <span>Artiste: {resource.artist}</span>
-              )}
-              <span>
-                <Download className="inline h-3 w-3 mr-1" />
-                {resource.download_count} tél.
-              </span>
-              {resource.createdAt && (
+            {/* Zone scrollable pour le contenu long */}
+            <div className="flex-1 overflow-y-auto pr-1" style={{ maxHeight: '100px' }}>
+              {/* Description */}
+              <div className="text-gray-600 text-sm break-words mb-2">
+                {resource.description}
+              </div>
+
+              {/* Métadonnées */}
+              <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
+                {resource.pages && <span>Pages: {resource.pages}</span>}
+                {resource.duration && <span>Durée: {resource.duration}</span>}
+                {resource.artist && <span>Artiste: {resource.artist}</span>}
                 <span>
-                  Créé: {format(new Date(resource.createdAt), "dd/MM/yyyy", { locale: fr })}
+                  <Download className="inline h-3 w-3 mr-1" />
+                  {resource.download_count} tél.
                 </span>
+                {resource.createdAt && (
+                  <span>
+                    Créé: {format(new Date(resource.createdAt), "dd/MM/yyyy", { locale: fr })}
+                  </span>
+                )}
+              </div>
+
+              {/* Tags */}
+              {resource.tags && resource.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {resource.tags.map((tag, index) => (
+                    <Badge key={index} variant="outline" className="text-xs truncate max-w-[120px]">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
               )}
             </div>
 
-            {/* Tags */}
-            {resource.tags && resource.tags.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1 w-full">
-                {resource.tags.map((tag, index) => (
-                  <Badge key={index} variant="outline" className="text-xs max-w-full truncate">
-                    {tag}
+            {/* Partie inférieure fixe (Badges + bouton télécharger) */}
+            <div className="flex flex-wrap items-center justify-between gap-2 mt-2 pt-2 border-t border-gray-100 flex-shrink-0">
+              <div className="flex flex-wrap gap-1">
+                <Badge variant="secondary">
+                  {getCategoryLabel(resource.category)}
+                </Badge>
+                <Badge variant={resource.is_published ? "default" : "outline"}>
+                  {resource.is_published ? "Publié" : "Brouillon"}
+                </Badge>
+                {resource.file_type !== "none" && (
+                  <Badge variant="outline">
+                    {getFileTypeLabel(resource.file_type)}
                   </Badge>
-                ))}
+                )}
               </div>
-            )}
 
-            {/* Actions de téléchargement */}
-            <div className="mt-3 flex flex-wrap items-center gap-2 w-full">
-              {resource.file_url && resource.file_type !== "none" && (
-                <Button size="sm" variant="outline" onClick={handleDownload} className="text-xs">
-                  <Download className="h-3 w-3 mr-1" />
-                  Télécharger
-                </Button>
-              )}
-              {resource.file_size && resource.file_type !== "none" && (
-                <span className="text-xs text-gray-500">
-                  ({Math.round(resource.file_size / 1024 / 1024 * 100) / 100} MB)
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {resource.file_url && resource.file_type !== "none" && (
+                  <Button size="sm" variant="outline" onClick={handleDownload} className="text-xs h-8">
+                    <Download className="h-3 w-3 mr-1" />
+                    Télécharger
+                  </Button>
+                )}
+                {resource.file_size && resource.file_type !== "none" && (
+                  <span className="text-xs text-gray-500">
+                    ({Math.round(resource.file_size / 1024 / 1024 * 100) / 100} MB)
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>

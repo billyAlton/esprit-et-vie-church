@@ -109,7 +109,10 @@ export default function ProjectDetailPage() {
       statusConfig[status as keyof typeof statusConfig] ||
       statusConfig.planning;
     return (
-      <Badge variant={config.variant} className={config.color}>
+      <Badge
+        variant={config.variant}
+        className={`${config.color} break-words max-w-full`}
+      >
         {config.label}
       </Badge>
     );
@@ -156,10 +159,10 @@ export default function ProjectDetailPage() {
         <Card className="w-full max-w-md">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Building className="h-12 w-12 text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 break-words max-w-full text-center">
               {error ? "Erreur" : "Projet non trouvé"}
             </h2>
-            <p className="text-gray-600 mb-6 text-center">
+            <p className="text-gray-600 mb-6 text-center break-words max-w-full">
               {error ||
                 "Le projet demandé n'existe pas ou vous n'y avez pas accès."}
             </p>
@@ -182,24 +185,30 @@ export default function ProjectDetailPage() {
   return (
     <div className="space-y-6">
       {/* En-tête avec actions */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4 min-w-0">
           <Button
             variant="outline"
             size="sm"
             onClick={() => router.push("/admin/projets")}
+            className="flex-shrink-0"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Retour
           </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 break-words ">
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate max-w-full overflow-hidden">
               {project.title}
             </h1>
-            <p className="text-gray-600 mt-1">Détails du projet</p>
+            <p className="text-gray-600 mt-1 break-words whitespace-normal">
+              Détails du projet
+            </p>
           </div>
         </div>
-        <Button onClick={() => router.push(`/admin/projets/${projectId}/edit`)}>
+        <Button
+          onClick={() => router.push(`/admin/projets/${projectId}/edit`)}
+          className="flex-shrink-0"
+        >
           <Edit className="mr-2 h-4 w-4" />
           Modifier
         </Button>
@@ -207,31 +216,34 @@ export default function ProjectDetailPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Colonne principale */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6 min-w-0">
           {/* Carte des informations principales */}
           <Card>
             <CardHeader>
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <CardTitle className="text-2xl flex items-center gap-3">
-                  <CategoryIcon className="h-8 w-8 text-blue-600" />
-                  {project.title}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words max-w-full min-w-0">
+                  <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
+                  <span className="truncate min-w-0 max-w-full overflow-hidden">
+                    {project.title}
+                  </span>
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
-                    <CategoryIcon className="h-4 w-4 mr-1" />
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-sm font-medium break-words max-w-full">
+                    <CategoryIcon className="h-4 w-4 mr-1 flex-shrink-0" />
                     {getCategoryLabel(project.category)}
                   </span>
                   {getStatusBadge(project.status)}
                   {project.is_featured && (
                     <Badge
                       variant="default"
-                      className="bg-yellow-100 text-yellow-800"
+                      className="bg-yellow-100 text-yellow-800 break-words max-w-full"
                     >
                       Projet phare
                     </Badge>
                   )}
                   <Badge
                     variant={project.is_published ? "default" : "secondary"}
+                    className="break-words max-w-full"
                   >
                     {project.is_published ? "Publié" : "Brouillon"}
                   </Badge>
@@ -242,31 +254,40 @@ export default function ProjectDetailPage() {
               {/* Description courte */}
               {project.short_description && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">
+                  <h3 className="font-semibold text-gray-900 mb-2 break-words">
                     Description courte
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed break-words whitespace-pre-wrap min-w-0">
                     {project.short_description}
                   </p>
                 </div>
               )}
 
-              {/* Description complète */}
+              {/* Description complète avec scroll */}
               <div>
-                <h3 className="font-semibold text-gray-900 mb-3">
+                <h3 className="font-semibold text-gray-900 mb-3 break-words">
                   Description complète
                 </h3>
-                <div className="prose max-w-none">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                    {project.description}
-                  </p>
+                <div className="relative">
+                  <div
+                    className="prose max-w-none overflow-y-auto pr-4 break-words min-w-0"
+                    style={{ maxHeight: "400px" }}
+                  >
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words min-w-0">
+                      {project.description}
+                    </p>
+                  </div>
+                  {/* Ombre dégradée pour indiquer qu'il y a plus de contenu */}
+                  {project.description && project.description.length > 1500 && (
+                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+                  )}
                 </div>
               </div>
 
               {/* Image du projet */}
               {project.image_url && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
+                  <h3 className="font-semibold text-gray-900 mb-3 break-words">
                     Image du projet
                   </h3>
                   <div className="rounded-lg overflow-hidden border">
@@ -285,45 +306,55 @@ export default function ProjectDetailPage() {
               {/* Points d'impact */}
               {project.impact_points && project.impact_points.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
+                  <h3 className="font-semibold text-gray-900 mb-3 break-words">
                     Points d'impact
                   </h3>
                   <ul className="space-y-2">
                     {project.impact_points.map((point, index) => (
-                      <li key={index} className="flex items-start gap-3">
+                      <li
+                        key={index}
+                        className="flex items-start gap-3 min-w-0"
+                      >
                         <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{point}</span>
+                        <span className="text-gray-700 break-words whitespace-normal min-w-0">
+                          {point}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
 
-              {/* Étapes du projet */}
+              {/* Étapes du projet avec scroll si besoin */}
               {project.steps && project.steps.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">
+                  <h3 className="font-semibold text-gray-900 mb-3 break-words">
                     Étapes du projet
                   </h3>
-                  <div className="space-y-3">
+                  <div
+                    className="space-y-3 overflow-y-auto pr-2"
+                    style={{
+                      maxHeight: project.steps.length > 5 ? "300px" : "none",
+                    }}
+                  >
                     {project.steps.map((step, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-4 border rounded-lg"
+                        className="flex items-center justify-between p-4 border rounded-lg min-w-0"
                       >
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 min-w-0">
                           <div
                             className={`p-2 rounded-full ${getStepStatusColor(
                               step.status
-                            )}`}
+                            )} flex-shrink-0`}
                           >
                             {getStepStatusIcon(step.status)}
                           </div>
-                          <div>
-                            <p className="font-medium text-gray-900">
+                          <div className="min-w-0">
+                            <p className="font-medium text-gray-900 break-words overflow-hidden">
                               {step.name}
                             </p>
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 break-words">
                               Étape {step.order} •
                               <span className="capitalize ml-1">
                                 {step.status === "pending" && "En attente"}
@@ -339,26 +370,34 @@ export default function ProjectDetailPage() {
                 </div>
               )}
 
-              {/* Exemples de dons */}
+              {/* Exemples de dons avec scroll si besoin */}
               {project.donation_examples &&
                 project.donation_examples.length > 0 && (
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-3">
+                    <h3 className="font-semibold text-gray-900 mb-3 break-words">
                       Exemples d'impact des dons
                     </h3>
-                    <div className="grid gap-3 md:grid-cols-2">
+                    <div
+                      className="grid gap-3 md:grid-cols-2 overflow-y-auto pr-2"
+                      style={{
+                        maxHeight:
+                          project.donation_examples.length > 4
+                            ? "300px"
+                            : "none",
+                      }}
+                    >
                       {project.donation_examples.map((example, index) => (
                         <Card
                           key={index}
-                          className="border-l-4 border-l-blue-500"
+                          className="border-l-4 border-l-blue-500 break-words"
                         >
                           <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <span className="text-lg font-bold text-blue-600">
+                            <div className="flex justify-between items-start mb-2 min-w-0">
+                              <span className="text-lg font-bold text-blue-600 break-words overflow-hidden">
                                 {formatAmount(example.amount)}
                               </span>
                             </div>
-                            <p className="text-gray-700 text-sm">
+                            <p className="text-gray-700 text-sm break-words">
                               {example.description}
                             </p>
                           </CardContent>
@@ -371,10 +410,16 @@ export default function ProjectDetailPage() {
               {/* Tags */}
               {project.tags && project.tags.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-3">Tags</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3 break-words">
+                    Tags
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary">
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="break-words max-w-full"
+                      >
                         {tag}
                       </Badge>
                     ))}
@@ -390,14 +435,14 @@ export default function ProjectDetailPage() {
           {/* Progression financière */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                Progression financière
+              <CardTitle className="text-lg flex items-center gap-2 break-words">
+                <TrendingUp className="h-5 w-5 flex-shrink-0" />
+                <span className="break-words">Progression financière</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900 mb-2">
+                <div className="text-3xl font-bold text-gray-900 mb-2 break-words">
                   {progress}%
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
@@ -419,14 +464,14 @@ export default function ProjectDetailPage() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="text-center">
                   <Target className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold text-gray-900 break-words">
                     {formatAmount(project.goal_amount)}
                   </p>
                   <p className="text-gray-600">Objectif</p>
                 </div>
                 <div className="text-center">
                   <DollarSign className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                  <p className="font-semibold text-gray-900">
+                  <p className="font-semibold text-gray-900 break-words">
                     {formatAmount(project.current_amount)}
                   </p>
                   <p className="text-gray-600">Collecté</p>
@@ -435,7 +480,7 @@ export default function ProjectDetailPage() {
 
               {project.goal_amount > 0 && (
                 <div className="text-center">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 break-words">
                     Il reste{" "}
                     {formatAmount(project.goal_amount - project.current_amount)}{" "}
                     à collecter
@@ -448,21 +493,25 @@ export default function ProjectDetailPage() {
           {/* Informations du projet */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Eye className="h-5 w-5" />
-                Informations du projet
+              <CardTitle className="text-lg flex items-center gap-2 break-words">
+                <Eye className="h-5 w-5 flex-shrink-0" />
+                <span className="break-words">Informations du projet</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Statut</span>
-                {getStatusBadge(project.status)}
+              <div className="flex items-center justify-between min-w-0">
+                <span className="text-sm text-gray-600 break-words">
+                  Statut
+                </span>
+                <div className="min-w-0">{getStatusBadge(project.status)}</div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Projet phare</span>
+                <span className="text-sm text-gray-600 break-words">
+                  Projet phare
+                </span>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`px-2 py-1 rounded-full text-xs font-medium break-words ${
                     project.is_featured
                       ? "bg-green-100 text-green-800"
                       : "bg-gray-100 text-gray-800"
@@ -473,9 +522,11 @@ export default function ProjectDetailPage() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Publication</span>
+                <span className="text-sm text-gray-600 break-words">
+                  Publication
+                </span>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`px-2 py-1 rounded-full text-xs font-medium break-words ${
                     project.is_published
                       ? "bg-green-100 text-green-800"
                       : "bg-yellow-100 text-yellow-800"
@@ -486,14 +537,20 @@ export default function ProjectDetailPage() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Ordre d'affichage</span>
-                <span className="font-medium">{project.order}</span>
+                <span className="text-sm text-gray-600 break-words">
+                  Ordre d'affichage
+                </span>
+                <span className="font-medium break-words">{project.order}</span>
               </div>
 
               {project.steps && (
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Étapes définies</span>
-                  <span className="font-medium">{project.steps.length}</span>
+                  <span className="text-sm text-gray-600 break-words">
+                    Étapes définies
+                  </span>
+                  <span className="font-medium break-words">
+                    {project.steps.length}
+                  </span>
                 </div>
               )}
             </CardContent>
@@ -502,34 +559,40 @@ export default function ProjectDetailPage() {
           {/* Métadonnées */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Métadonnées
+              <CardTitle className="text-lg flex items-center gap-2 break-words">
+                <Calendar className="h-5 w-5 flex-shrink-0" />
+                <span className="break-words">Métadonnées</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {project.createdAt && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Créé le</span>
-                  <span className="font-medium text-sm text-right">
+                <div className="flex items-center justify-between min-w-0">
+                  <span className="text-sm text-gray-600 break-words">
+                    Créé le
+                  </span>
+                  <span className="font-medium text-sm text-right break-words">
                     {format(new Date(project.createdAt), "PPP", { locale: fr })}
                   </span>
                 </div>
               )}
 
               {project.updatedAt && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Modifié le</span>
-                  <span className="font-medium text-sm text-right">
+                <div className="flex items-center justify-between min-w-0">
+                  <span className="text-sm text-gray-600 break-words">
+                    Modifié le
+                  </span>
+                  <span className="font-medium text-sm text-right break-words">
                     {format(new Date(project.updatedAt), "PPP", { locale: fr })}
                   </span>
                 </div>
               )}
 
               {project.published_at && project.is_published && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Publié le</span>
-                  <span className="font-medium text-sm text-right">
+                <div className="flex items-center justify-between min-w-0">
+                  <span className="text-sm text-gray-600 break-words">
+                    Publié le
+                  </span>
+                  <span className="font-medium text-sm text-right break-words">
                     {format(new Date(project.published_at), "PPP", {
                       locale: fr,
                     })}
@@ -538,9 +601,11 @@ export default function ProjectDetailPage() {
               )}
 
               {project.start_date && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Date de début</span>
-                  <span className="font-medium text-sm text-right">
+                <div className="flex items-center justify-between min-w-0">
+                  <span className="text-sm text-gray-600 break-words">
+                    Date de début
+                  </span>
+                  <span className="font-medium text-sm text-right break-words">
                     {format(new Date(project.start_date), "PPP", {
                       locale: fr,
                     })}
@@ -549,11 +614,11 @@ export default function ProjectDetailPage() {
               )}
 
               {project.estimated_end_date && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">
+                <div className="flex items-center justify-between min-w-0">
+                  <span className="text-sm text-gray-600 break-words">
                     Date de fin estimée
                   </span>
-                  <span className="font-medium text-sm text-right">
+                  <span className="font-medium text-sm text-right break-words">
                     {format(new Date(project.estimated_end_date), "PPP", {
                       locale: fr,
                     })}
@@ -566,11 +631,11 @@ export default function ProjectDetailPage() {
           {/* Actions rapides */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Actions</CardTitle>
+              <CardTitle className="text-lg break-words">Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <Button
-                className="w-full"
+                className="w-full break-words"
                 onClick={() => router.push(`/admin/projets/${projectId}/edit`)}
               >
                 <Edit className="mr-2 h-4 w-4" />
@@ -579,53 +644,53 @@ export default function ProjectDetailPage() {
 
               <Button
                 variant="outline"
-                className="w-full"
+                className="w-full break-words"
                 onClick={() => router.push("/admin/projets")}
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Retour à la liste
               </Button>
-
-              {/* Vous pouvez ajouter un bouton de suppression ici */}
-              {/* <Button variant="destructive" className="w-full">
-                <X className="mr-2 h-4 w-4" />
-                Supprimer le projet
-              </Button> */}
             </CardContent>
           </Card>
 
           {/* Statistiques rapides */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Statistiques</CardTitle>
+              <CardTitle className="text-lg break-words">
+                Statistiques
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Points d'impact</span>
-                <span className="font-semibold">
+              <div className="flex justify-between items-center min-w-0">
+                <span className="text-sm text-gray-600 break-words">
+                  Points d'impact
+                </span>
+                <span className="font-semibold break-words">
                   {project.impact_points?.length || 0}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Exemples de dons</span>
-                <span className="font-semibold">
+              <div className="flex justify-between items-center min-w-0">
+                <span className="text-sm text-gray-600 break-words">
+                  Exemples de dons
+                </span>
+                <span className="font-semibold break-words">
                   {project.donation_examples?.length || 0}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">Tags</span>
-                <span className="font-semibold">
+              <div className="flex justify-between items-center min-w-0">
+                <span className="text-sm text-gray-600 break-words">Tags</span>
+                <span className="font-semibold break-words">
                   {project.tags?.length || 0}
                 </span>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">
+              <div className="flex justify-between items-center min-w-0">
+                <span className="text-sm text-gray-600 break-words">
                   Taux de progression
                 </span>
-                <span className="font-semibold">{progress}%</span>
+                <span className="font-semibold break-words">{progress}%</span>
               </div>
             </CardContent>
           </Card>
