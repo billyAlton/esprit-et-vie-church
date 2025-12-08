@@ -197,7 +197,7 @@ export default function ProjectDetailPage() {
             Retour
           </Button>
           <div className="min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate max-w-full overflow-hidden">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 break-words whitespace-normal max-w-full">
               {project.title}
             </h1>
             <p className="text-gray-600 mt-1 break-words whitespace-normal">
@@ -224,9 +224,9 @@ export default function ProjectDetailPage() {
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words max-w-full min-w-0">
-                    <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
-                    <span className="truncate min-w-0 max-w-full overflow-hidden">
+                  <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words whitespace-norma max-w-full min-w-0">
+                    <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0 break-words whitespace-norma" />
+                    <span className="break-words whitespace-normal min-w-0 max-w-full">
                       {project.title}
                     </span>
                   </CardTitle>
