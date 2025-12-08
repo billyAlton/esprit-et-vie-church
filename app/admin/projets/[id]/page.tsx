@@ -203,15 +203,17 @@ export default function ProjectDetailPage() {
             <p className="text-gray-600 mt-1 break-words whitespace-normal">
               Détails du projet
             </p>
+            <div className="mt-3">
+              <Button
+                onClick={() => router.push(`/admin/projets/${projectId}/edit`)}
+                size="sm"
+              >
+                <Edit className="mr-2 h-4 w-4" />
+                Modifier
+              </Button>
+            </div>
           </div>
         </div>
-        <Button
-          onClick={() => router.push(`/admin/projets/${projectId}/edit`)}
-          className="flex-shrink-0"
-        >
-          <Edit className="mr-2 h-4 w-4" />
-          Modifier
-        </Button>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -221,32 +223,34 @@ export default function ProjectDetailPage() {
           <Card>
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words max-w-full min-w-0">
-                  <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
-                  <span className="truncate min-w-0 max-w-full overflow-hidden">
-                    {project.title}
-                  </span>
-                </CardTitle>
-                <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-sm font-medium break-words max-w-full">
-                    <CategoryIcon className="h-4 w-4 mr-1 flex-shrink-0" />
-                    {getCategoryLabel(project.category)}
-                  </span>
-                  {getStatusBadge(project.status)}
-                  {project.is_featured && (
+                <div className="min-w-0">
+                  <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words max-w-full min-w-0">
+                    <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
+                    <span className="truncate min-w-0 max-w-full overflow-hidden">
+                      {project.title}
+                    </span>
+                  </CardTitle>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-sm font-medium break-words max-w-full">
+                      <CategoryIcon className="h-4 w-4 mr-1 flex-shrink-0" />
+                      {getCategoryLabel(project.category)}
+                    </span>
+                    {getStatusBadge(project.status)}
+                    {project.is_featured && (
+                      <Badge
+                        variant="default"
+                        className="bg-yellow-100 text-yellow-800 break-words max-w-full"
+                      >
+                        Projet phare
+                      </Badge>
+                    )}
                     <Badge
-                      variant="default"
-                      className="bg-yellow-100 text-yellow-800 break-words max-w-full"
+                      variant={project.is_published ? "default" : "secondary"}
+                      className="break-words max-w-full"
                     >
-                      Projet phare
+                      {project.is_published ? "Publié" : "Brouillon"}
                     </Badge>
-                  )}
-                  <Badge
-                    variant={project.is_published ? "default" : "secondary"}
-                    className="break-words max-w-full"
-                  >
-                    {project.is_published ? "Publié" : "Brouillon"}
-                  </Badge>
+                  </div>
                 </div>
               </div>
             </CardHeader>
