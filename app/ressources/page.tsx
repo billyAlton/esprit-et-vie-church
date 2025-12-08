@@ -133,30 +133,26 @@ export default function ResourcesPage() {
                 <div className="w-20 h-1 bg-primary" />
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-20">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
                 {grouped.books.map((book, index) => (
                   <Card
                     key={book._id}
-                    className="p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
+                    className="w-full p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                       <BookOpen className="w-8 h-8 text-primary" />
                     </div>
 
-                    {/* Contenu avec scroll interne */}
-                    <div className="flex flex-col h-[180px]">
-                      {" "}
-                      {/* Hauteur fixe pour la carte */}
-                      <h3 className="text-xl font-bold text-foreground mb-2 break-words line-clamp-2">
+                    <div className="flex flex-col h-[180px] w-full">
+                      <h3 className="text-xl font-bold text-foreground mb-2 break-words line-clamp-2 max-w-full">
                         {book.title}
                       </h3>
-                      {/* Description avec scroll */}
-                      <div className="flex-1 overflow-y-auto pr-1 mb-4 text-sm text-muted-foreground break-words">
+                      <div className="flex-1 overflow-y-auto pr-1 mb-4 text-sm text-muted-foreground break-words max-w-full">
                         {book.description}
                       </div>
                       {book.pages && (
-                        <p className="text-xs text-muted-foreground mb-4">
+                        <p className="text-xs text-muted-foreground mb-4 break-words max-w-full">
                           {book.pages} pages
                         </p>
                       )}
@@ -190,36 +186,38 @@ export default function ResourcesPage() {
                 <div className="w-20 h-1 bg-primary" />
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-20">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
                 {grouped.brochures.map((brochure, index) => (
                   <Card
                     key={brochure._id}
-                    className="p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
+                    className="w-full p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
                       <FileText className="w-8 h-8 text-accent" />
                     </div>
-                    <h3 className="text-xl font-bold text-foreground mb-2 break-words line-clamp-2">
-                      {brochure.title}
-                    </h3>
-                    <p className="flex-1 overflow-y-auto pr-1 mb-4 text-sm text-muted-foreground break-words">
-                      {brochure.description}
-                    </p>
-                    {brochure.pages && (
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {brochure.pages} pages
-                      </p>
-                    )}
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => handleDownload(brochure)}
-                      disabled={!brochure.file_url}
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Télécharger
-                    </Button>
+                    <div className="flex flex-col h-[180px] w-full">
+                      <h3 className="text-xl font-bold text-foreground mb-2 break-words line-clamp-2 max-w-full">
+                        {brochure.title}
+                      </h3>
+                      <div className="flex-1 overflow-y-auto pr-1 mb-4 text-sm text-muted-foreground break-words max-w-full">
+                        {brochure.description}
+                      </div>
+                      {brochure.pages && (
+                        <p className="text-sm text-muted-foreground mb-4 break-words max-w-full">
+                          {brochure.pages} pages
+                        </p>
+                      )}
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => handleDownload(brochure)}
+                        disabled={!brochure.file_url}
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Télécharger
+                      </Button>
+                    </div>
                   </Card>
                 ))}
               </div>
@@ -241,47 +239,55 @@ export default function ResourcesPage() {
                 <div className="w-20 h-1 bg-primary" />
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6 mb-20">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
                 {grouped.songs.map((song, index) => (
                   <Card
                     key={song._id}
-                    className="p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
+                    className="w-full p-6 border-border shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in fade-in slide-in-from-bottom-5 duration-700"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                       <Music className="w-8 h-8 text-primary" />
                     </div>
-                    <h3 className="text-lg font-bold text-foreground mb-2">
-                      {song.title}
-                    </h3>
-                    {song.artist && (
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {song.artist}
-                      </p>
-                    )}
-                    <div className="flex gap-2">
-                      {song.file_type === "audio" && (
-                        <Button
-                          size="sm"
-                          className="flex-1 bg-primary hover:bg-primary/90"
-                          onClick={() => handleDownload(song)}
-                          disabled={!song.file_url}
-                        >
-                          <Download className="w-3 h-3 mr-1" />
-                          Audio
-                        </Button>
+
+                    <div className="flex flex-col h-[180px] w-full">
+                      <h3 className="text-lg font-bold text-foreground mb-2 break-words line-clamp-2 max-w-full">
+                        {song.title}
+                      </h3>
+                      {song.artist && (
+                        <p className="text-sm text-muted-foreground mb-2 break-words max-w-full">
+                          {song.artist}
+                        </p>
                       )}
-                      {song.file_type !== "audio" && (
-                        <Button
-                          size="sm"
-                          className="flex-1 bg-primary hover:bg-primary/90"
-                          onClick={() => handleDownload(song)}
-                          disabled={!song.file_url}
-                        >
-                          <Download className="w-3 h-3 mr-1" />
-                          Télécharger
-                        </Button>
+                      {song.description && (
+                        <div className="flex-1 overflow-y-auto pr-1 mb-4 text-sm text-muted-foreground break-words max-w-full">
+                          {song.description}
+                        </div>
                       )}
+                      <div className="flex gap-2 mt-auto">
+                        {song.file_type === "audio" && (
+                          <Button
+                            size="sm"
+                            className="flex-1 bg-primary hover:bg-primary/90 max-w-full"
+                            onClick={() => handleDownload(song)}
+                            disabled={!song.file_url}
+                          >
+                            <Download className="w-3 h-3 mr-1" />
+                            Audio
+                          </Button>
+                        )}
+                        {song.file_type !== "audio" && (
+                          <Button
+                            size="sm"
+                            className="flex-1 bg-primary hover:bg-primary/90 max-w-full"
+                            onClick={() => handleDownload(song)}
+                            disabled={!song.file_url}
+                          >
+                            <Download className="w-3 h-3 mr-1" />
+                            Télécharger
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </Card>
                 ))}
@@ -308,13 +314,13 @@ export default function ResourcesPage() {
                 {grouped.faqs.map((faq, index) => (
                   <Card
                     key={faq._id || index}
-                    className="p-6 border-border shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700"
+                    className="w-full p-6 border-border shadow-lg animate-in fade-in slide-in-from-bottom-5 duration-700"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <h3 className="text-lg font-bold text-foreground mb-3">
+                    <h3 className="text-lg font-bold text-foreground mb-3 break-words max-w-full">
                       {faq.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground leading-relaxed break-words max-w-full">
                       {faq.description}
                     </p>
                   </Card>
