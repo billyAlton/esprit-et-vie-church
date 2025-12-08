@@ -272,13 +272,13 @@ export default function ProjectDetailPage() {
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Description courte */}
+              {/* Description courte avec gestion de débordement */}
               {project.short_description && (
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2 break-words">
                     Description courte
                   </h3>
-                  <div className="max-h-24 overflow-y-auto pr-2">
+                  <div className="max-h-32 overflow-y-auto pr-2">
                     <p className="text-gray-700 leading-relaxed break-words whitespace-pre-wrap min-w-0">
                       {project.short_description}
                     </p>
@@ -292,7 +292,7 @@ export default function ProjectDetailPage() {
                   Description complète
                 </h3>
                 <div className="relative">
-                  <div className="prose max-w-none overflow-y-auto pr-4 break-words min-w-0 max-h-[28rem]">
+                  <div className="overflow-y-auto pr-4 break-words min-w-0 max-h-96 bg-gray-50 rounded-md p-4 border">
                     <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words min-w-0">
                       {project.description}
                     </p>
@@ -329,19 +329,21 @@ export default function ProjectDetailPage() {
                   <h3 className="font-semibold text-gray-900 mb-3 break-words">
                     Points d'impact
                   </h3>
-                  <ul className="space-y-2">
-                    {project.impact_points.map((point, index) => (
-                      <li
-                        key={index}
-                        className="flex items-start gap-3 min-w-0"
-                      >
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700 break-words whitespace-normal min-w-0">
-                          {point}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="max-h-64 overflow-y-auto pr-2">
+                    <ul className="space-y-2">
+                      {project.impact_points.map((point, index) => (
+                        <li
+                          key={index}
+                          className="flex items-start gap-3 min-w-0"
+                        >
+                          <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-gray-700 break-words whitespace-normal min-w-0">
+                            {point}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               )}
 
@@ -351,41 +353,38 @@ export default function ProjectDetailPage() {
                   <h3 className="font-semibold text-gray-900 mb-3 break-words">
                     Étapes du projet
                   </h3>
-                  <div
-                    className="space-y-3 overflow-y-auto pr-2"
-                    style={{
-                      maxHeight: project.steps.length > 5 ? "300px" : "none",
-                    }}
-                  >
-                    {project.steps.map((step, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-4 border rounded-lg min-w-0"
-                      >
-                        <div className="flex items-center gap-4 min-w-0">
-                          <div
-                            className={`p-2 rounded-full ${getStepStatusColor(
-                              step.status
-                            )} flex-shrink-0`}
-                          >
-                            {getStepStatusIcon(step.status)}
-                          </div>
-                          <div className="min-w-0">
-                            <p className="font-medium text-gray-900 break-words overflow-hidden">
-                              {step.name}
-                            </p>
-                            <p className="text-sm text-gray-500 break-words">
-                              Étape {step.order} •
-                              <span className="capitalize ml-1">
-                                {step.status === "pending" && "En attente"}
-                                {step.status === "in_progress" && "En cours"}
-                                {step.status === "completed" && "Terminé"}
-                              </span>
-                            </p>
+                  <div className="max-h-96 overflow-y-auto pr-2">
+                    <div className="space-y-3">
+                      {project.steps.map((step, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-4 border rounded-lg min-w-0"
+                        >
+                          <div className="flex items-center gap-4 min-w-0">
+                            <div
+                              className={`p-2 rounded-full ${getStepStatusColor(
+                                step.status
+                              )} flex-shrink-0`}
+                            >
+                              {getStepStatusIcon(step.status)}
+                            </div>
+                            <div className="min-w-0">
+                              <p className="font-medium text-gray-900 break-words overflow-hidden">
+                                {step.name}
+                              </p>
+                              <p className="text-sm text-gray-500 break-words">
+                                Étape {step.order} •
+                                <span className="capitalize ml-1">
+                                  {step.status === "pending" && "En attente"}
+                                  {step.status === "in_progress" && "En cours"}
+                                  {step.status === "completed" && "Terminé"}
+                                </span>
+                              </p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
@@ -397,32 +396,28 @@ export default function ProjectDetailPage() {
                     <h3 className="font-semibold text-gray-900 mb-3 break-words">
                       Exemples d'impact des dons
                     </h3>
-                    <div
-                      className="grid gap-3 md:grid-cols-2 overflow-y-auto pr-2"
-                      style={{
-                        maxHeight:
-                          project.donation_examples.length > 4
-                            ? "300px"
-                            : "none",
-                      }}
-                    >
-                      {project.donation_examples.map((example, index) => (
-                        <Card
-                          key={index}
-                          className="border-l-4 border-l-blue-500 break-words"
-                        >
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-2 min-w-0">
-                              <span className="text-lg font-bold text-blue-600 break-words overflow-hidden">
-                                {formatAmount(example.amount)}
-                              </span>
-                            </div>
-                            <p className="text-gray-700 text-sm break-words">
-                              {example.description}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      ))}
+                    <div className="max-h-96 overflow-y-auto pr-2">
+                      <div className="grid gap-3 md:grid-cols-2">
+                        {project.donation_examples.map((example, index) => (
+                          <Card
+                            key={index}
+                            className="border-l-4 border-l-blue-500 break-words"
+                          >
+                            <CardContent className="p-4">
+                              <div className="flex justify-between items-start mb-2 min-w-0">
+                                <span className="text-lg font-bold text-blue-600 break-words overflow-hidden">
+                                  {formatAmount(example.amount)}
+                                </span>
+                              </div>
+                              <div className="max-h-24 overflow-y-auto">
+                                <p className="text-gray-700 text-sm break-words whitespace-pre-wrap">
+                                  {example.description}
+                                </p>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}

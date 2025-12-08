@@ -343,7 +343,7 @@ function ResourceCard({
             {/* En-tête - partie fixe */}
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2 flex-shrink-0">
               <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2">
+                <h3 className="text-lg font-bold text-gray-900 truncate break-words line-clamp-2">
                   {resource.title}
                 </h3>
               </div>
@@ -366,9 +366,9 @@ function ResourceCard({
             {/* Zone scrollable pour le contenu long */}
             <div className="flex-1 overflow-y-auto pr-1" style={{ maxHeight: '100px' }}>
               {/* Description */}
-              <div className="text-gray-600 text-sm break-words mb-2">
+              {/* <div className="text-gray-600 text-sm break-words mb-2">
                 {resource.description}
-              </div>
+              </div> */}
 
               {/* Métadonnées */}
               <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 mb-2">
