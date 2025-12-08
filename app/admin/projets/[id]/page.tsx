@@ -197,13 +197,13 @@ export default function ProjectDetailPage() {
             Retour
           </Button>
           <div className="min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 break-words whitespace-normal max-w-full">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 truncate max-w-full overflow-hidden">
               {project.title}
             </h1>
             <p className="text-gray-600 mt-1 break-words whitespace-normal">
               Détails du projet
             </p>
-            <div className="mt-3">
+            <div className="mt-3 flex flex-wrap gap-2">
               <Button
                 onClick={() => router.push(`/admin/projets/${projectId}/edit`)}
                 size="sm"
@@ -211,6 +211,23 @@ export default function ProjectDetailPage() {
                 <Edit className="mr-2 h-4 w-4" />
                 Modifier
               </Button>
+              {((project as any).file_url ||
+                (project as any).attachment_url ||
+                (project as any).document_url) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const url =
+                      (project as any).file_url ||
+                      (project as any).attachment_url ||
+                      (project as any).document_url;
+                    if (url) window.open(url, "_blank");
+                  }}
+                >
+                  Télécharger
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -224,9 +241,9 @@ export default function ProjectDetailPage() {
             <CardHeader>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words whitespace-norma max-w-full min-w-0">
-                    <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0 break-words whitespace-norma" />
-                    <span className="break-words whitespace-normal min-w-0 max-w-full">
+                  <CardTitle className="text-xl sm:text-2xl flex items-center gap-3 break-words max-w-full min-w-0">
+                    <CategoryIcon className="h-8 w-8 text-blue-600 flex-shrink-0" />
+                    <span className="truncate min-w-0 max-w-full overflow-hidden">
                       {project.title}
                     </span>
                   </CardTitle>
@@ -261,9 +278,11 @@ export default function ProjectDetailPage() {
                   <h3 className="font-semibold text-gray-900 mb-2 break-words">
                     Description courte
                   </h3>
-                  <p className="text-gray-700 leading-relaxed break-words whitespace-pre-wrap min-w-0">
-                    {project.short_description}
-                  </p>
+                  <div className="max-h-24 overflow-y-auto pr-2">
+                    <p className="text-gray-700 leading-relaxed break-words whitespace-pre-wrap min-w-0">
+                      {project.short_description}
+                    </p>
+                  </div>
                 </div>
               )}
 
@@ -273,10 +292,7 @@ export default function ProjectDetailPage() {
                   Description complète
                 </h3>
                 <div className="relative">
-                  <div
-                    className="prose max-w-none overflow-y-auto pr-4 break-words min-w-0"
-                    style={{ maxHeight: "400px" }}
-                  >
+                  <div className="prose max-w-none overflow-y-auto pr-4 break-words min-w-0 max-h-[28rem]">
                     <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words min-w-0">
                       {project.description}
                     </p>
