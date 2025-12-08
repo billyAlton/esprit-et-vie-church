@@ -307,15 +307,20 @@ interface ResourceCardProps {
   getFileTypeLabel: (fileType: string) => string;
 }
 
-function ResourceCard({ resource, onDelete, getCategoryIcon, getCategoryLabel, getFileTypeLabel }: ResourceCardProps) {
+function ResourceCard({
+  resource,
+  onDelete,
+  getCategoryIcon,
+  getCategoryLabel,
+  getFileTypeLabel,
+}: ResourceCardProps) {
   const CategoryIcon = getCategoryIcon(resource.category);
 
   const handleDownload = async () => {
     try {
       await ResourceService.incrementDownloadCount(resource._id!);
-      // Ouvrir le fichier dans un nouvel onglet
       if (resource.file_url) {
-        window.open(resource.file_url, '_blank');
+        window.open(resource.file_url, "_blank");
       }
     } catch (error) {
       console.error("Erreur lors du téléchargement:", error);
@@ -323,23 +328,30 @@ function ResourceCard({ resource, onDelete, getCategoryIcon, getCategoryLabel, g
   };
 
   return (
-    <Card key={resource._id} className="hover:shadow-lg transition-shadow">
-      <CardContent className="p-6">
-        <div className="flex gap-6">
+    <Card className="hover:shadow-lg transition-shadow h-full max-h-[320px] flex flex-col">
+      <CardContent className="p-4 flex flex-col h-full">
+        <div className="flex flex-col md:flex-row gap-4 h-full">
+          {/* Icône */}
           <div className="flex-shrink-0">
-            <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center">
-              <CategoryIcon className="h-12 w-12 text-blue-600" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center">
+              <CategoryIcon className="h-8 w-8 text-blue-600" />
             </div>
           </div>
-          <div className="flex-1">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">
+
+          {/* Contenu scrollable */}
+          <div className="flex-1 min-w-0 overflow-y-auto pr-1">
+            {/* En-tête avec titre et boutons */}
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2">
                   {resource.title}
                 </h3>
-                <p className="text-gray-600 mt-1">{resource.description}</p>
-                
-                <div className="flex flex-wrap gap-2 mt-2">
+
+                <div className="mt-1 text-gray-600 text-sm break-words line-clamp-3">
+                  {resource.description}
+                </div>
+
+                <div className="flex flex-wrap gap-1 mt-2">
                   <Badge variant="secondary">
                     {getCategoryLabel(resource.category)}
                   </Badge>
@@ -353,76 +365,65 @@ function ResourceCard({ resource, onDelete, getCategoryIcon, getCategoryLabel, g
                   )}
                 </div>
               </div>
-              <div className="flex gap-2">
+
+              {/* Boutons d'action */}
+              <div className="flex gap-1 flex-shrink-0">
                 <Button asChild size="sm" variant="outline">
                   <Link href={`/admin/resources/${resource._id}`}>
-                    <Eye className="h-4 w-4 mr-1" />
-                    Voir
+                    <Eye className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
                 <Button asChild size="sm">
                   <Link href={`/admin/resources/${resource._id}/edit`}>
-                    <Edit className="h-4 w-4 mr-1" />
-                    Modifier
+                    <Edit className="h-3.5 w-3.5" />
                   </Link>
                 </Button>
-                {/* Vous pouvez ajouter un composant DeleteResourceButton similaire à DeleteSermonButton */}
               </div>
             </div>
 
             {/* Métadonnées */}
-            <div className="mt-4 flex flex-wrap gap-4 text-sm text-gray-600">
+            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600">
               {resource.pages && (
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">Pages:</span>
-                  {resource.pages}
-                </div>
+                <span>Pages: {resource.pages}</span>
               )}
               {resource.duration && (
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">Durée:</span>
-                  {resource.duration}
-                </div>
+                <span>Durée: {resource.duration}</span>
               )}
               {resource.artist && (
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">Artiste:</span>
-                  {resource.artist}
-                </div>
+                <span>Artiste: {resource.artist}</span>
               )}
-              <div className="flex items-center gap-2">
-                <Download className="h-4 w-4" />
-                <span>{resource.download_count} téléchargements</span>
-              </div>
+              <span>
+                <Download className="inline h-3 w-3 mr-1" />
+                {resource.download_count} tél.
+              </span>
               {resource.createdAt && (
-                <div className="flex items-center gap-2">
-                  <span className="font-medium">Créé:</span>
-                  {format(new Date(resource.createdAt), "dd/MM/yyyy", { locale: fr })}
-                </div>
+                <span>
+                  Créé: {format(new Date(resource.createdAt), "dd/MM/yyyy", { locale: fr })}
+                </span>
               )}
             </div>
 
             {/* Tags */}
             {resource.tags && resource.tags.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-2 flex flex-wrap gap-1">
                 {resource.tags.map((tag, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
+                  <Badge key={index} variant="outline" className="text-xs max-w-full truncate">
                     {tag}
                   </Badge>
                 ))}
               </div>
             )}
 
-            {/* Actions */}
-            <div className="mt-4 flex gap-2">
+            {/* Actions de téléchargement */}
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               {resource.file_url && resource.file_type !== "none" && (
-                <Button size="sm" variant="outline" onClick={handleDownload}>
-                  <Download className="h-4 w-4 mr-1" />
+                <Button size="sm" variant="outline" onClick={handleDownload} className="text-xs">
+                  <Download className="h-3 w-3 mr-1" />
                   Télécharger
                 </Button>
               )}
               {resource.file_size && resource.file_type !== "none" && (
-                <span className="text-sm text-gray-500 self-center">
+                <span className="text-xs text-gray-500">
                   ({Math.round(resource.file_size / 1024 / 1024 * 100) / 100} MB)
                 </span>
               )}
