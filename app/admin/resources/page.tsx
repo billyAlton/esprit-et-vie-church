@@ -150,7 +150,7 @@ export default function ResourcesPage() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Ressources</h1>
@@ -186,7 +186,7 @@ export default function ResourcesPage() {
                 placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 w-full"
               />
             </div>
 
@@ -328,9 +328,9 @@ function ResourceCard({
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow h-full max-h-[320px] flex flex-col">
-      <CardContent className="p-4 flex flex-col h-full">
-        <div className="flex flex-col md:flex-row gap-4 h-full">
+    <Card className="hover:shadow-lg transition-shadow h-full max-h-[320px] flex flex-col w-full">
+      <CardContent className="p-4 flex flex-col h-full w-full">
+        <div className="flex flex-col md:flex-row gap-4 h-full w-full">
           {/* Icône */}
           <div className="flex-shrink-0">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center">
@@ -339,15 +339,15 @@ function ResourceCard({
           </div>
 
           {/* Contenu scrollable */}
-          <div className="flex-1 min-w-0 overflow-y-auto pr-1">
+          <div className="flex-1 min-w-0 overflow-y-auto pr-1 w-full">
             {/* En-tête avec titre et boutons */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 w-full">
+              <div className="flex-1 min-w-0 w-full">
+                <h3 className="text-lg font-bold text-gray-900 break-words line-clamp-2 max-w-full">
                   {resource.title}
                 </h3>
 
-                <div className="mt-1 text-gray-600 text-sm break-words line-clamp-3">
+                <div className="mt-1 text-gray-600 text-sm break-words line-clamp-3 max-w-full">
                   {resource.description}
                 </div>
 
@@ -382,7 +382,7 @@ function ResourceCard({
             </div>
 
             {/* Métadonnées */}
-            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600">
+            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 w-full">
               {resource.pages && (
                 <span>Pages: {resource.pages}</span>
               )}
@@ -405,7 +405,7 @@ function ResourceCard({
 
             {/* Tags */}
             {resource.tags && resource.tags.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1">
+              <div className="mt-2 flex flex-wrap gap-1 w-full">
                 {resource.tags.map((tag, index) => (
                   <Badge key={index} variant="outline" className="text-xs max-w-full truncate">
                     {tag}
@@ -415,7 +415,7 @@ function ResourceCard({
             )}
 
             {/* Actions de téléchargement */}
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="mt-3 flex flex-wrap items-center gap-2 w-full">
               {resource.file_url && resource.file_type !== "none" && (
                 <Button size="sm" variant="outline" onClick={handleDownload} className="text-xs">
                   <Download className="h-3 w-3 mr-1" />
