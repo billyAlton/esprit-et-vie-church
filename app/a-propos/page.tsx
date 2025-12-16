@@ -108,7 +108,7 @@ export default function AboutPage() {
                     <li className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
                       <span>
-                        <strong>Campagnes d'évangélisation :</strong> Les 15 août de chaque année
+                        <strong>24h pour Jésus Christ :</strong> Les 15 août de chaque année
                       </span>
                     </li>
                     <li className="flex items-start gap-3">
