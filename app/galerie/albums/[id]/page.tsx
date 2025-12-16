@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import PhotoGallery from "@/components/photo-gallery";
 import ShareAlbum from "@/components/share-album";
+import { GalleryService, type GalleryAlbum } from "@/src/services/gallery.service";
 
 // Type pour les photos
 interface Photo {
@@ -33,36 +34,75 @@ interface Photo {
   uploadedAt: string;
 }
 
+// Type pour le composant ShareAlbum
+interface ShareAlbumProps {
+  album: {
+    _id: string;
+    title: string;
+    description: string;
+  };
+}
+
 // Type pour l'album
-interface Album {
-  _id: string;
-  title: string;
-  description: string;
-  coverImage: string;
-  date: string;
-  location?: string;
-  category: string;
-  tags: string[];
-  photographer?: string;
-  photoCount: number;
+interface Album extends Omit<GalleryAlbum, 'is_published' | 'location'> {
+  _id: string; // S'assurer que _id est requis
   photos: Photo[];
   isPublic: boolean;
+  photographer?: string;
+  tags: string[];
+  photoCount: number;
+  coverImage: string;
+  title: string;
+  description: string;
+  date: string;
+  location?: string; // Ajout de la propriété location
+  category: string;
   createdAt: string;
   updatedAt: string;
 }
 
 // Fonction pour récupérer l'album
 async function getAlbum(id: string): Promise<Album> {
-  // Remplacer par votre appel API réel
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/albums/${id}`, {
-    cache: 'no-store'
-  });
-  
-  if (!res.ok) {
-    throw new Error('Failed to fetch album');
+  try {
+    const album = await GalleryService.getAlbumById(id);
+    
+    if (!album) {
+      throw new Error('Album non trouvé');
+    }
+
+    if (!album._id) {
+      throw new Error('ID de l\'album non défini');
+    }
+
+    // Transformer les données pour correspondre à l'interface Album
+    return {
+      ...album,
+      _id: album._id, // S'assurer que _id est défini
+      photos: (album.images || []).map((image: string, index: number) => ({
+        _id: `${album._id}-${index}`,
+        url: image,
+        thumbnailUrl: image,
+        title: `${album.title} - Photo ${index + 1}`,
+        width: 1200,
+        height: 800,
+        uploadedAt: album.createdAt || new Date().toISOString(),
+      })) as Photo[],
+      isPublic: album.is_published,
+      tags: album.category ? [album.category] : [],
+      photoCount: album.images?.length || 0,
+      coverImage: album.coverImage || (album.images?.[0] ?? ''),
+      title: album.title,
+      description: album.description || '',
+      date: album.date || new Date().toISOString(),
+      location: (album as any).location, // Utilisation de type assertion car location n'est pas dans GalleryAlbum
+      category: album.category || 'Non catégorisé',
+      createdAt: album.createdAt || new Date().toISOString(),
+      updatedAt: album.updatedAt || new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'album:', error);
+    throw new Error('Échec du chargement de l\'album');
   }
-  
-  return res.json();
 }
 
 // Metadata dynamique
@@ -126,7 +166,11 @@ export default async function AlbumPage({ params }: { params: { id: string } }) 
             </Button>
             
             <div className="flex items-center gap-2">
-              <ShareAlbum album={album} />
+              <ShareAlbum album={{
+                _id: album._id,
+                title: album.title,
+                description: album.description
+              }} />
               <Button variant="ghost" size="icon" className="text-white hover:text-white hover:bg-white/20">
                 <Download className="h-4 w-4" />
               </Button>
