@@ -41,7 +41,7 @@ apiClient.interceptors.request.use(
 
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.log("Token ajouté à la requête");
+        // console.log("Token ajouté à la requête");
       } else {
         console.warn("Aucun token Supabase trouvé");
       }

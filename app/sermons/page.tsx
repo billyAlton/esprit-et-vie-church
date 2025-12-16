@@ -307,7 +307,7 @@ export default function SermonsPage() {
     fetchSermons();
   }, []);
   
-  console.log("Sermons fetched:", sermons);
+  // console.log("Sermons fetched:", sermons);
   const featuredSermons = sermons?.filter((s) => s.featured);
   const regularSermons = sermons?.filter((s) => !s.featured);
   

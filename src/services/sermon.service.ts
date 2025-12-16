@@ -23,7 +23,7 @@ export const SermonService = {
   async getAllSermons(): Promise<any> {
     try {
       const response = await apiClient.get<any>("/sermons/sermons");
-      console.log("Fetched sermons:", response.data);
+      // console.log("Fetched sermons:", response.data);
       return response.data.data;
     } catch (error: any) {
       console.error(
@@ -63,26 +63,21 @@ export const SermonService = {
   // Créer un nouveau sermon
   async createSermon(data: Sermon | FormData): Promise<Sermon> {
     try {
-      console.log("=== Envoi des données du sermon ===");
-      console.log("Type:", data instanceof FormData ? "FormData" : "Object");
+     
       
       if (data instanceof FormData) {
-        console.log("Contenu du FormData:");
+        // console.log("Contenu du FormData:");
         for (let [key, value] of data.entries()) {
-          console.log(`${key}:`, value instanceof File ? `File: ${value.name}` : value);
+          // console.log(`${key}:`, value instanceof File ? `File: ${value.name}` : value);
         }
       } else {
         console.log("Données JSON:", data);
       }
       
       const response = await apiClient.post<Sermon>("/sermons/sermons", data);
-      console.log("Réponse:", response.data);
+      // console.log("Réponse:", response.data);
       return response.data;
     } catch (error: any) {
-      console.error("=== ERREUR COMPLÈTE ===");
-      console.error("Message:", error.message);
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
       throw error;
     }
   },
@@ -90,21 +85,15 @@ export const SermonService = {
   //  Mettre à jour un sermon
   async updateSermon(id: string, data: Partial<Sermon> | FormData): Promise<Sermon> {
     try {
-      console.log(`=== Mise à jour du sermon ${id} ===`);
-      console.log("Type:", data instanceof FormData ? "FormData" : "Object");
       
       if (!(data instanceof FormData)) {
-        console.log("Données JSON:", data);
+        // console.log("Données JSON:", data);
       }
       
       const response = await apiClient.put<Sermon>(`/sermons/sermons/${id}`, data);
       console.log("Réponse:", response.data);
       return response.data;
     } catch (error: any) {
-      console.error("=== ERREUR COMPLÈTE ===");
-      console.error("Message:", error.message);
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
       throw error;
     }
   },

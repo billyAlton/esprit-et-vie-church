@@ -15,7 +15,6 @@ export interface Event {
 const eventService = {
   getEvents: async () => {
     const response = await apiClient.get("/events/get");
-    console.log("Fetched events:", response.data);
     return response.data;
   },
   getAllEvents: async () => {
@@ -48,24 +47,19 @@ const eventService = {
   // Créer un nouvel événement
   createEvent: async (data: Event | FormData): Promise<Event> => {
     try {
-      console.log("=== Envoi des données ===");
-      console.log("Type:", data instanceof FormData ? "FormData" : "Object");
       
       if (data instanceof FormData) {
-        console.log("Contenu du FormData:");
+        // console.log("Contenu du FormData:");
         for (let [key, value] of data.entries()) {
-          console.log(`${key}:`, value instanceof File ? `File: ${value.name}` : value);
+          // console.log(`${key}:`, value instanceof File ? `File: ${value.name}` : value);
         }
       }
       
       const response = await apiClient.post<Event>("/events/create", data);
-      console.log("Réponse:", response.data);
+      // console.log("Réponse:", response.data);
       return response.data;
     } catch (error: any) {
-      console.error("=== ERREUR COMPLÈTE ===");
-      console.error("Message:", error.message);
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
+      
       throw error;
     }
   },

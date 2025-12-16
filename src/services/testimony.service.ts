@@ -76,7 +76,6 @@ export class TestimonyService {
   static async getTestimonyById(id: string): Promise<Testimony> {
     try {
       const response = await apiClient.get<any>(`/testimonies/admin/${id}`);
-      console.log("===== ", response.data)
       return response.data.data;
     } catch (error: any) {
       console.error(
@@ -90,16 +89,11 @@ export class TestimonyService {
   // 🟡 Créer un témoignage (admin - alternative)
   async createTestimony(data: Testimony | FormData): Promise<Testimony> {
     try {
-      console.log("=== Création du témoignage (admin) ===");
       
       const response = await apiClient.post<Testimony>("/testimonies/admin/create", data);
-      console.log("Réponse:", response.data);
+
       return response.data;
     } catch (error: any) {
-      console.error("=== ERREUR CRÉATION TÉMOIGNAGE ===");
-      console.error("Message:", error.message);
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
       throw error;
     }
   }

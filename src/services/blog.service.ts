@@ -101,17 +101,12 @@ export const BlogPostService = {
 
   async createBlogPost(data: Partial<BlogPost>): Promise<BlogPost> {
     try {
-      console.log("=== Données avant envoi ===");
-      console.log("Tags:", data.tags);
-      console.log("Type des tags:", typeof data.tags);
 
       // Convertir les tags en string si c'est un tableau
       const requestData = {
         ...data,
         tags: Array.isArray(data.tags) ? data.tags.join(", ") : data.tags,
       };
-
-      console.log("Tags après conversion:", requestData.tags);
 
       const response = await apiClient.post<{
         success: boolean;
@@ -174,7 +169,6 @@ export const BlogPostService = {
         data: BlogPost[];
         pagination: any;
       }>("/blogs/blog/posts/published", { params });
-      console.log("Fetched published posts:", response.data);
       return response.data;
     } catch (error: any) {
       console.error("Erreur chargement articles publiés:", error.message);

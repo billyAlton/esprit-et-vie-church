@@ -96,7 +96,7 @@ export const EventForm: React.FC<EventFormProps> = ({ event, onSuccess }) => {
           formDataToSend.append("images", file);
         });
       }
-      console.log("Sent to service : ", formDataToSend);
+      // console.log("Sent to service : ", formDataToSend);
 
       // A
 

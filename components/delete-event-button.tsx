@@ -40,7 +40,7 @@ export function DeleteEventButton({
     setIsDeleting(true)
 
     try {
-      console.log("Suppression de l'événement:", eventId)
+      // console.log("Suppression de l'événement:", eventId)
       await EventService.deleteEvent(eventId)
       
       // Fermer la dialog

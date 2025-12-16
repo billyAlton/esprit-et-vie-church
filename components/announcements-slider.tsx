@@ -141,8 +141,8 @@ export function AnnouncementsSlider() {
     fetchEvents()
   }, [])
   
-  console.log("Events fetched:", events)
-  console.log("Media URL:", MediaUrl)
+  // console.log("Events fetched:", events)
+  // console.log("Media URL:", MediaUrl)
 
   // Gestion du carrousel automatique
   useEffect(() => {

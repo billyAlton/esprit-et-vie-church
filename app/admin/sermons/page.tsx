@@ -56,7 +56,7 @@ export default function SermonsPage() {
       setLoading(false);
     }
   };
-  console.log("Sermons loaded:", sermons);
+  // console.log("Sermons loaded:", sermons);
 
   // Appliquer les filtres
   useEffect(() => {
