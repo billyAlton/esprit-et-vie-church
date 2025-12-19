@@ -8,7 +8,7 @@ import axios, {
 export const BASE_URL = "http://localhost:8002/api";
 import { createClient } from "@/lib/supabase/client";
 
-// export const BASE_URL = 'https://codux.kababeats.com/api';
+// export const BASE_URL = 'https://futurebackend/api';
 
 // Create an Axios instance
 const apiClient: AxiosInstance = axios.create({
