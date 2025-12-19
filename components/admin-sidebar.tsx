@@ -36,10 +36,10 @@ export function AdminSidebar() {
 
   return (
     <div className="flex h-full w-64 flex-col bg-gray-900 text-white">
-      <div className="flex h-16 items-center justify-center border-b border-gray-800">
+      <div className="flex h-16 flex-shrink-0 items-center justify-center border-b border-gray-800">
         <h1 className="text-xl font-bold">Church Admin</h1>
       </div>
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {navigation.map((item) => {
           const isActive = pathname === item.href
           return (
@@ -57,7 +57,7 @@ export function AdminSidebar() {
           )
         })}
       </nav>
-      <div className="border-t border-gray-800 p-4">
+      <div className="border-t border-gray-800 p-4 flex-shrink-0">
         <Button
           variant="ghost"
           className="w-full justify-start text-gray-400 hover:bg-gray-800 hover:text-white"
