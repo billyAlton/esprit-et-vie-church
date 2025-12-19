@@ -80,7 +80,7 @@ export const DonationService = {
       const response = await apiClient.get<{
         success: boolean;
         data: Donation;
-      }>(`/donations/show${id}`);
+      }>(`/donations/show/${id}`);
       return response.data.data;
     } catch (error: any) {
       console.error(`Erreur chargement don ${id}:`, error.message);
@@ -95,7 +95,7 @@ export const DonationService = {
         success: boolean;
         data: Donation;
         message: string;
-      }>(`/donations/update${id}`, data);
+      }>(`/donations/update/${id}`, data);
       return response.data.data;
     } catch (error: any) {
       console.error(`Erreur mise à jour don ${id}:`, error.message);
@@ -106,7 +106,7 @@ export const DonationService = {
   // 🔴 Supprimer un don
   async deleteDonation(id: string): Promise<void> {
     try {
-      await apiClient.delete(`/donations/delete${id}`);
+      await apiClient.delete(`/donations/delete/${id}`);
     } catch (error: any) {
       console.error(`Erreur suppression don ${id}:`, error.message);
       throw error;
