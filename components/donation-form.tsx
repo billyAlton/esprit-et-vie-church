@@ -1,10 +1,10 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import  {DonationService}  from "@/src/services/donation.service"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
+import { toast } from "sonner"
 
 export function DonationForm() {
   const router = useRouter()
@@ -34,33 +35,36 @@ export function DonationForm() {
     setIsLoading(true)
     setError(null)
 
-    const supabase = createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
-
-    const donationData = {
-      donor_name: formData.donor_name || null,
-      donor_email: formData.donor_email || null,
-      donor_id: user?.id || null,
-      amount: Number.parseFloat(formData.amount),
-      currency: "USD",
-      donation_type: formData.donation_type,
-      payment_method: formData.payment_method,
-      payment_status: formData.payment_status,
-      notes: formData.notes || null,
-      is_recurring: formData.is_recurring,
-    }
-
     try {
-      const { error } = await supabase.from("donations").insert([donationData])
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
 
-      if (error) throw error
+      const donationData = {
+        donor_name: formData.donor_name || null,
+        donor_email: formData.donor_email || null,
+        donor_id: user?.id || null,
+        amount: Number.parseFloat(formData.amount),
+        currency: "USD",
+        donation_type: formData.donation_type as any,
+        payment_method: formData.payment_method as any,
+        payment_status: formData.payment_status as any,
+        notes: formData.notes || null,
+        is_recurring: formData.is_recurring,
+        payment_id: `donation_${Date.now()}`,
+        is_anonymous: false,
+        recurrence_frequency: null,
+        next_recurrence_date: null
+      }
 
+      await DonationService.createDonation(donationData)
+      
+      toast.success("Don enregistré avec succès!")
       router.push("/admin/donations")
       router.refresh()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
+    } catch (err: any) {
+      console.error("Erreur lors de l'enregistrement du don:", err)
+      setError(err.message || "Une erreur est survenue lors de l'enregistrement du don")
+      toast.error("Erreur lors de l'enregistrement du don")
     } finally {
       setIsLoading(false)
     }
