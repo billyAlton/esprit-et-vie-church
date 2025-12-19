@@ -102,6 +102,20 @@ export const DonationService = {
       throw error;
     }
   },
+  // Add this inside the DonationService object
+  useGetAllDonations: (params?: any) => {
+    return {
+      data: [],
+      refetch: async () => {
+        try {
+          return await DonationService.getAllDonations(params);
+        } catch (error) {
+          console.error("Error fetching donations:", error);
+          throw error;
+        }
+      }
+    };
+  },
 
   // 🔴 Supprimer un don
   async deleteDonation(id: string): Promise<void> {
